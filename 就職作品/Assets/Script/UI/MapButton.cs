@@ -11,23 +11,28 @@ public class MapButton : MonoBehaviour
     ////‰Šú‘I‘ðƒ{ƒ^ƒ“
     //public Button mapUIButton;
 
-    void Start()
+    void Update()
     {
         UIMap();
-
-    //    bool isActive = false;
-
-    //    mapUIButton.onClick.AddListener(() =>
-    //    {
-    //        isActive = !isActive;
-    //        _UIMap.SetActive(isActive);
-    //    });
     }
 
     bool isActive = false;
+    bool pushFlag = false;
     void UIMap()
     {
-        _UIMap.SetActive(!isActive);
+        if (Input.GetKey(KeyCode.M))
+        {
+            if (pushFlag == false)
+            {
+                isActive = !isActive;
+                _UIMap.SetActive(!isActive);
+                pushFlag = true;
+            }
+        }
+        else
+        {
+            pushFlag = false;
+        }
     }
 
 }
