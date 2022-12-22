@@ -20,10 +20,10 @@ public class PlayerController : MonoBehaviour
     private Vector3 _aim;               //方向
     private Quaternion _playerRotation; //回転
 
-    Vector3 moveDirection = Vector3.zero;
-    Vector3 startPos;
+    //Vector3 moveDirection = Vector3.zero;
+    //Vector3 startPos;
 
-    float jumpForce = 200.0f;           //ジャンプ力
+    float jumpForce = 600.0f;           //ジャンプ力
     Vector3 playerPos;                  //ユニティちゃんの位置を入れる
     bool Ground = true;                 //地面に接触しているか否か
     int key = 0;
@@ -126,11 +126,14 @@ public class PlayerController : MonoBehaviour
     //---------ジャンプ関数
     void jumpPlayer()
     {
-        if (Input.GetButton("Jump"))
+        if (Ground)
         {
-            //jumpForceの分だけ上方に力がかかる
-            _rigidbody.AddForce(transform.up * jumpForce);
-            Ground = false;
+            if (Input.GetButton("Jump"))
+            {
+                //jumpForceの分だけ上方に力がかかる
+                _rigidbody.AddForce(transform.up * jumpForce);
+                Ground = false;
+            }
         }
     }
 
