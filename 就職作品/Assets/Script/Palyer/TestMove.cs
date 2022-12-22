@@ -9,7 +9,7 @@ public class TestMove : MonoBehaviour
     //移動スピード
     float speed = 3.0f;
     //ジャンプ力
-    float jumpForce = 850.0f;
+    float jumpForce = 2000.0f;
     //ユニティちゃんの位置を入れる
     Vector3 playerPos;
     //地面に接触しているか否か

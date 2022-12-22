@@ -23,6 +23,11 @@ public class PlayerController : MonoBehaviour
     Vector3 moveDirection = Vector3.zero;
     Vector3 startPos;
 
+    float jumpForce = 200.0f;           //ジャンプ力
+    Vector3 playerPos;                  //ユニティちゃんの位置を入れる
+    bool Ground = true;                 //地面に接触しているか否か
+    int key = 0;
+
     //--------------- 初期 --------------------
     void Start()
     {
@@ -33,14 +38,14 @@ public class PlayerController : MonoBehaviour
         _playerRotation = _transform.rotation;      //回転処理
 
         _runFlag = false;                           //ダッシュ用フラグ
-        
+        playerPos = transform.position;
     }
 
     //--------------- 更新 --------------------
     void FixedUpdate()
     {
         movePlayer();
-        //jumpPlayer();
+        jumpPlayer();
     }
 
     //---------移動関数
@@ -121,9 +126,24 @@ public class PlayerController : MonoBehaviour
     //---------ジャンプ関数
     void jumpPlayer()
     {
-       
+        if (Input.GetButton("Jump"))
+        {
+            //jumpForceの分だけ上方に力がかかる
+            _rigidbody.AddForce(transform.up * jumpForce);
+            Ground = false;
+        }
     }
-    
+
+    //ジャンプ後、Planeに接触した時に接触判定をtrueに戻す
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.gameObject.tag == "Ground")
+        {
+            if (!Ground)
+                Ground = true;
+        }
+    }
+
     //---------マウス移動
 
 }
