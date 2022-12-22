@@ -23,7 +23,6 @@ public class PlayerController : MonoBehaviour
     Vector3 moveDirection = Vector3.zero;
     Vector3 startPos;
 
-
     //--------------- 初期 --------------------
     void Start()
     {
@@ -34,6 +33,7 @@ public class PlayerController : MonoBehaviour
         _playerRotation = _transform.rotation;      //回転処理
 
         _runFlag = false;                           //ダッシュ用フラグ
+        
     }
 
     //--------------- 更新 --------------------
@@ -123,8 +123,8 @@ public class PlayerController : MonoBehaviour
     {
        
     }
-
-    //---------マウス移動
     
+    //---------マウス移動
+
 }
 

@@ -25,6 +25,7 @@ public class PlayerCameraController : MonoBehaviour
         {
             pivot = transform;
         }
+
     }
 
     //カメラ上下移動の最大、最小角度です。Inspectorウィンドウから設定してください
@@ -71,25 +72,7 @@ public class PlayerCameraController : MonoBehaviour
         float nowAngle = pivot.transform.localRotation.x;   //現在の角度
         pivot.transform.Rotate(-Y_Rotation, 0, 0);  //下向きにカメラ方向移動
         pivot.transform.Rotate(-Y_Rotation, 0, 0);  //上向きにカメラ方向移動
-        #region
-        //if (-Y_Rotation != 0)       //マウスの移動がある時
-        //{
-        //    if (0 < Y_Rotation)
-        //    {
-        //        if (minYAngle < nowAngle)  //現在の角度が一番下までの位置なら
-        //        {
-        //            pivot.transform.Rotate(-Y_Rotation, 0, 0);  //下向きにカメラ方向移動
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (nowAngle < maxYAngle)  //現在の角度が一番上までの位置なら
-        //        {
-        //            pivot.transform.Rotate(-Y_Rotation, 0, 0);  //上向きにカメラ方向移動
-        //        }
-        //    }
-        //}
-        #endregion
+
     }
 
     void moveMouse1stPlayer()
@@ -135,6 +118,5 @@ public class PlayerCameraController : MonoBehaviour
             transform.rotation = Quaternion.Euler(_rotation_x, _rotation_y, 0);
         }
     }
+    
 }
-
-
