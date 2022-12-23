@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -20,13 +21,14 @@ public class PlayerController : MonoBehaviour
     private Vector3 _aim;               //方向
     private Quaternion _playerRotation; //回転
 
-    //Vector3 moveDirection = Vector3.zero;
-    //Vector3 startPos;
-
     float jumpForce = 600.0f;           //ジャンプ力
     Vector3 playerPos;                  //ユニティちゃんの位置を入れる
     bool Ground = true;                 //地面に接触しているか否か
     int key = 0;
+
+    public InputField inputField;
+    public GameObject door;
+    public GameObject fieldObject;
 
     //--------------- 初期 --------------------
     void Start()
@@ -50,7 +52,7 @@ public class PlayerController : MonoBehaviour
 
     //---------移動関数
     void movePlayer()
-    { 
+    {
         _animator.SetBool("walking", false);    //アニメーション実行しない
         _animator.SetBool("running", false);
 
@@ -83,7 +85,7 @@ public class PlayerController : MonoBehaviour
             _animator.SetBool("walking", true);     //アニメーション実行
         }
 
-        
+
 
 
         #region
@@ -115,7 +117,7 @@ public class PlayerController : MonoBehaviour
         #endregion
 
     }
-    
+
     void runFlag()
     {
         _runFlag = true;
@@ -147,7 +149,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //---------マウス移動
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.name == "Door_snaps")
+            fieldObject.SetActive(true);
+    }
 
+    public void InputPass()
+    {
+        if (inputField.text == "4452")
+            door.GetComponent<ClearDoorOpen>().DoorMove();
+        fieldObject.SetActive(false);
+
+    }
 }
 
