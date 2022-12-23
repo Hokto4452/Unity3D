@@ -8,10 +8,7 @@ public class MapButton : MonoBehaviour
     //表示したいUI
     [SerializeField] GameObject _UIBigMap;
     [SerializeField] GameObject _UIMiniMap;
-
-    ////初期選択ボタン
-    //public Button mapUIButton;
-
+    
     void Update()
     {
         UIMap();

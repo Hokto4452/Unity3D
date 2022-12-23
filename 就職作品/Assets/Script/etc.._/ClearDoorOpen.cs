@@ -11,18 +11,18 @@ public class ClearDoorOpen : MonoBehaviour
 
     IEnumerator DoorRotate()
     {
-        for (int turn = 0; turn < 90; turn++)
+        for (int pos = 0; pos < 6; pos++)
         {
-            transform.Rotate(0, 1, 0);
-            yield return new WaitForSeconds(0.01f);
+            transform.Translate(0, 1f, 0);
+            yield return new WaitForSeconds(0.5f);
         }
 
         yield return new WaitForSeconds(100.0f);
 
-        for (int turn = 0; turn < 90; turn++)
+        for (int pos = 0; pos < 6; pos++)
         {
-            transform.Rotate(0, -1, 0);
-            yield return new WaitForSeconds(0.01f);
+            transform.Translate(0, -1f, 0);
+            yield return new WaitForSeconds(0.5f);
         }
     }
 }
