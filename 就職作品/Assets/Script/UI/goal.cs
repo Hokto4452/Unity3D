@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class goal : MonoBehaviour
 {
@@ -18,6 +19,9 @@ public class goal : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-
+        if (other.gameObject.name == "Player")
+        {
+            SceneManager.LoadScene("1stGoal");
+        }
     }
 }
