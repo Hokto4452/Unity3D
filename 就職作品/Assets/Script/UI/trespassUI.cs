@@ -21,28 +21,12 @@ public class trespassUI : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         _UIPassword.SetActive(true);
-        //if (Input.GetKey(KeyCode.P))
-        //{
-        //    if (_tFlag == false)
-        //    {
-        //        _isActive = !_isActive;
-        //        _UIPassword.SetActive(!_isActive);
-        //        _tFlag = true;
-        //    }
-        //}
-        //else
-        //{
-        //    _tFlag = false;
-        //}
+        
     }
 
     //CubeÇ©ÇÁó£ÇÍÇΩÇ∆Ç´Ç…î≠ê∂
     private void OnTriggerExit(Collider other)
     {
         _UIPassword.SetActive(false);
-        //if (other.gameObject.name == "PassOpen")
-        //{
-
-        //}
     }
 }
