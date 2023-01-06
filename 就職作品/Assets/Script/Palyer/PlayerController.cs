@@ -33,7 +33,11 @@ public class PlayerController : MonoBehaviour
 
     public float sight_x = 0;
     public float sight_y = 0;
-
+    private bool isFront;
+    private bool isBack;
+    private bool isLeft;
+    private bool isRight;
+    public float moveSpd;
 
     //float x = Input.GetAxis("Horizontal");
     //float z = Input.GetAxis("Vertical");
@@ -60,9 +64,98 @@ public class PlayerController : MonoBehaviour
         jumpPlayer();
         ProCon3rd();
         ProConMove();
+        DebugLog();
     }
 
-    
+    void DebugLog()
+    {
+        #region
+        //L Stick
+        float lsh = Input.GetAxis("L_Stick_H");
+        float lsv = Input.GetAxis("L_Stick_V");
+        //R Stick
+        float rsh = Input.GetAxis("R_Stick_H");
+        float rsv = Input.GetAxis("R_Stick_V");
+        //D-Pad
+        float dph = Input.GetAxis("D_Pad_H");
+        float dpv = Input.GetAxis("D_Pad_V");
+        //Trigger
+        float tri = Input.GetAxis("L_R_Trigger");
+
+        float hori = Input.GetAxis("Horizontal");
+        float vert = Input.GetAxis("Vertical");
+
+        if (Input.GetKeyDown("joystick button 0"))
+        {
+            Debug.Log("button0");
+        }
+        if (Input.GetKeyDown("joystick button 1"))
+        {
+            Debug.Log("button1");
+        }
+        if (Input.GetKeyDown("joystick button 2"))
+        {
+            Debug.Log("button2");
+        }
+        if (Input.GetKeyDown("joystick button 3"))
+        {
+            Debug.Log("button3");
+        }
+        if (Input.GetKeyDown("joystick button 4"))
+        {
+            Debug.Log("button4");
+        }
+        if (Input.GetKeyDown("joystick button 5"))
+        {
+            Debug.Log("button5");
+        }
+        if (Input.GetKeyDown("joystick button 6"))
+        {
+            Debug.Log("button6");
+        }
+        if (Input.GetKeyDown("joystick button 7"))
+        {
+            Debug.Log("button7");
+        }
+        if (Input.GetKeyDown("joystick button 8"))
+        {
+            Debug.Log("button8");
+        }
+        if (Input.GetKeyDown("joystick button 9"))
+        {
+            Debug.Log("button9");
+        }
+        if ((hori != 0) || (vert != 0))           
+        {
+            //Debug.Log("stick:" + hori + "," + vert);
+        }
+        if ((lsh != 0) || (lsv != 0))
+        {
+            Debug.Log("L stick:" + lsh + "," + lsv);
+        }
+        if ((rsh != 0) || (rsv != 0))
+        {
+            Debug.Log("R stick:" + rsh + "," + rsv);
+        }
+        if ((dph != 0) || (dpv != 0)) 
+        {
+            Debug.Log("D Pad:" + dph + "," + dpv);
+        }
+        if (tri > 0)
+        {
+            Debug.Log("L trigger:" + tri);
+        }
+        else if (tri < 0)
+        {
+            Debug.Log("R trigger:" + tri);
+        }
+        else
+        {
+            //.Log("  trigger:none");
+        }
+        #endregion
+
+    }
 
     public void ProCon3rd()
     {
@@ -102,10 +195,55 @@ public class PlayerController : MonoBehaviour
 
     void ProConMove()
     {
-        //float dx = Mathf.Sin(sight_x * Mathf.Deg2Rad) * angleV + Mathf.Sin((sight_x + 90f) * Mathf.Deg2Rad) * angleH;
-        //float dz = Mathf.Cos(sight_x * Mathf.Deg2Rad) * angleV + Mathf.Cos((sight_x + 90f) * Mathf.Deg2Rad) * angleH;
+        float moveH = Input.GetAxis("L_Stick_H");
+        float moveV = Input.GetAxis("L_Stick_V");
 
-        //transform.Translate(dx, 0, dz, 0.0F);
+        _animator.SetBool("walking", false);    //アニメーション実行しない
+        _animator.SetBool("running", false);    //アニメーション実行しない
+
+        //--------------------------------------
+        //'''''キャラクター移動'''''
+        //--------------------------------------
+        isFront = moveV > 0;
+        isBack = moveV < 0;
+        isLeft = moveH < 0;
+        isRight = moveH > 0;
+
+        //--------------------------------------
+        //'''''スピード制限'''''
+        //--------------------------------------
+        moveSpd = 2f * (Mathf.Abs(moveV) + Mathf.Abs(moveH));
+
+        if (moveSpd > 1.5f)          //スピード制限
+        {
+            moveSpd = 1.5f;
+        }
+        else if (moveSpd <= 1.5f)
+        {
+            moveSpd = 2f * (Mathf.Abs(moveV) + Mathf.Abs(moveH));
+        }
+        Vector3 v = new Vector3(0f, 0f, 0f);
+
+        if (isFront)
+        {
+            transform.position += transform.forward * moveSpd * Time.deltaTime;
+            _animator.SetBool("walking", true);     //アニメーション実行
+        }
+        if (isBack)
+        {
+            transform.position -= transform.forward * moveSpd * Time.deltaTime;
+            _animator.SetBool("walking", true);     //アニメーション実行
+        }
+        if (isLeft)
+        {
+            transform.position -= transform.right * moveSpd * Time.deltaTime;
+            _animator.SetBool("walking", true);     //アニメーション実行
+        }
+        if (isRight)
+        {
+            transform.position += transform.right * moveSpd * Time.deltaTime;
+            _animator.SetBool("walking", true);     //アニメーション実行
+        }
     }
 
     //---------移動関数
@@ -142,9 +280,6 @@ public class PlayerController : MonoBehaviour
             transform.position += transform.right * _speed * Time.deltaTime;
             _animator.SetBool("walking", true);     //アニメーション実行
         }
-
-
-
 
         #region
         //    _horizontal = Input.GetAxis("Horizontal");  //横移動ボタン判定

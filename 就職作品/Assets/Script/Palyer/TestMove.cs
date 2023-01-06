@@ -51,7 +51,7 @@ public class TestMove : MonoBehaviour
         //GetInputKey();
         SightProcon();
         //Move();
-        //ProConButton();
+        ProConButton();
     }
 
 
@@ -116,29 +116,22 @@ public class TestMove : MonoBehaviour
         {
             Debug.Log("button9");
         }
-
-
-        
         if ((hori != 0) || (vert != 0))                 //A
         {
             //Debug.Log("stick:" + hori + "," + vert);
         }
-
         if ((lsh != 0) || (lsv != 0))               //L Stick
         {
             Debug.Log("L stick:" + lsh + "," + lsv);
         }
-       
         if ((rsh != 0) || (rsv != 0))               //R Stick
         {
             Debug.Log("R stick:" + rsh + "," + rsv);
         }
-        
         if ((dph != 0) || (dpv != 0))               //D-Pad
         {
             Debug.Log("D Pad:" + dph + "," + dpv);
         }
-        
         if (tri > 0)                                //Trigger
         {
             Debug.Log("L trigger:" + tri);

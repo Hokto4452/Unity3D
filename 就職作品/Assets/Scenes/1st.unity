@@ -7987,7 +7987,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ca0d2429b850fb40b590637a6405e5a, type: 3}
   m_Name: 
@@ -11287,6 +11287,7 @@ GameObject:
   - component: {fileID: 1346814764}
   - component: {fileID: 1346814763}
   - component: {fileID: 1346814762}
+  - component: {fileID: 1346814765}
   m_Layer: 0
   m_Name: aimPoint
   m_TagString: Untagged
@@ -11372,6 +11373,24 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1346814760}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1346814765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1346814760}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ca0d2429b850fb40b590637a6405e5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 0}
+  pivot: {fileID: 0}
+  _rotationSpeed: 1
+  _max_rotation_x: 60
+  maxYAngle: -0.5
+  minYAngle: 0.5
 --- !u!1 &1359986747
 GameObject:
   m_ObjectHideFlags: 0
@@ -18114,6 +18133,9 @@ MonoBehaviour:
   inputField: {fileID: 1748128286}
   door: {fileID: 533201701}
   fieldObject: {fileID: 1748128284}
+  sight_x: 0
+  sight_y: 0
+  moveSpd: 0
 --- !u!65 &2125342260
 BoxCollider:
   m_ObjectHideFlags: 0

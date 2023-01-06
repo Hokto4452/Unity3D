@@ -42,6 +42,7 @@ public class PlayerCameraController : MonoBehaviour
     void Update()
     {
         ProCon3rd();
+        ProConMove();
         //moveMouse3rdPlayer();
         //moveMouse1stPlayer();
         //shotBullet();
@@ -81,6 +82,11 @@ public class PlayerCameraController : MonoBehaviour
         }
         sight_x = sight_x + angleH;
         transform.localRotation = Quaternion.Euler(sight_y, sight_x, 0);
+    }
+
+    public void ProConMove()
+    {
+
     }
 
     void shotBullet()
