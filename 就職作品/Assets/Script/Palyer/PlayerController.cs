@@ -30,6 +30,16 @@ public class PlayerController : MonoBehaviour
     public GameObject door;
     public GameObject fieldObject;
 
+
+    public float sight_x = 0;
+    public float sight_y = 0;
+
+
+    //float x = Input.GetAxis("Horizontal");
+    //float z = Input.GetAxis("Vertical");
+    //float angleH = Input.GetAxis("Horizontal");
+    //float angleV = Input.GetAxis("Vertical");
+
     //--------------- 初期 --------------------
     void Start()
     {
@@ -48,6 +58,54 @@ public class PlayerController : MonoBehaviour
     {
         movePlayer();
         jumpPlayer();
+        ProCon3rd();
+        ProConMove();
+    }
+
+    
+
+    public void ProCon3rd()
+    {
+        float angleH = Input.GetAxis("R_Stick_H");
+        float angleV = Input.GetAxis("R_Stick_V");
+
+        if (sight_y > 80)
+        {
+            if (angleV < 0)
+            {
+                sight_y = sight_y + angleV;
+            }
+        }
+        else if (sight_y < -90)
+        {
+            if (angleV > 0)
+            {
+                sight_y = sight_y + angleV;
+            }
+        }
+        else
+        {
+            sight_y = sight_y + angleV;
+        }
+
+        if (sight_x >= 360)    //sight_x が360度を超えると360を引く、超えた分の端数はsight_xに残る
+        {
+            sight_x = sight_x - 360;
+        }
+        else if (sight_x < 0)  //sight_x が0度を下回ると360からsight_xを引く、残った分はsight_xに残る
+        {
+            sight_x = 360 - sight_x;
+        }
+        sight_x = sight_x + angleH;
+        transform.localRotation = Quaternion.Euler(sight_y, sight_x, 0);
+    }
+
+    void ProConMove()
+    {
+        //float dx = Mathf.Sin(sight_x * Mathf.Deg2Rad) * angleV + Mathf.Sin((sight_x + 90f) * Mathf.Deg2Rad) * angleH;
+        //float dz = Mathf.Cos(sight_x * Mathf.Deg2Rad) * angleV + Mathf.Cos((sight_x + 90f) * Mathf.Deg2Rad) * angleH;
+
+        //transform.Translate(dx, 0, dz, 0.0F);
     }
 
     //---------移動関数

@@ -16,6 +16,24 @@ public class TestMove : MonoBehaviour
     bool Ground = true;
     int key = 0;
 
+
+
+    private bool isFront;
+    private bool isBack;
+    private bool isLeft;
+    private bool isRight;
+    private bool isUp;
+    private bool isDown;
+    private Vector3 AroundPos;
+    public float moveSpd;
+
+
+    public void Hit()
+    {
+
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,22 +41,171 @@ public class TestMove : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         //ユニティちゃんの現在より少し前の位置を保存
         playerPos = transform.position;
+
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        GetInputKey();
-        Move();
+        //GetInputKey();
+        SightProcon();
+        //Move();
+        //ProConButton();
     }
+
+
+
+    void ProConButton()
+    {
+        #region
+        //L Stick
+        float lsh = Input.GetAxis("L_Stick_H");
+        float lsv = Input.GetAxis("L_Stick_V");
+        //R Stick
+        float rsh = Input.GetAxis("R_Stick_H");
+        float rsv = Input.GetAxis("R_Stick_V");
+        //D-Pad
+        float dph = Input.GetAxis("D_Pad_H");
+        float dpv = Input.GetAxis("D_Pad_V");
+        //Trigger
+        float tri = Input.GetAxis("L_R_Trigger");
+
+        float hori = Input.GetAxis("Horizontal");
+        float vert = Input.GetAxis("Vertical");
+
+        
+
+        if (Input.GetKeyDown("joystick button 0"))      //A
+        {
+            Debug.Log("button0");
+        }
+        if (Input.GetKeyDown("joystick button 1"))      //A
+        {
+            Debug.Log("button1");
+        }
+        if (Input.GetKeyDown("joystick button 2"))      //A
+        {
+            Debug.Log("button2");
+        }
+        if (Input.GetKeyDown("joystick button 3"))      //A
+        {
+            Debug.Log("button3");
+        }
+        if (Input.GetKeyDown("joystick button 4"))      //A
+        {
+            Debug.Log("button4");
+        }
+        if (Input.GetKeyDown("joystick button 5"))      //A
+        {
+            Debug.Log("button5");
+        }
+        if (Input.GetKeyDown("joystick button 6"))      //A
+        {
+            Debug.Log("button6");
+        }
+        if (Input.GetKeyDown("joystick button 7"))      //A
+        {
+            Debug.Log("button7");
+        }
+        if (Input.GetKeyDown("joystick button 8"))      //A
+        {
+            Debug.Log("button8");
+        }
+        if (Input.GetKeyDown("joystick button 9"))      //A
+        {
+            Debug.Log("button9");
+        }
+
+
+        
+        if ((hori != 0) || (vert != 0))                 //A
+        {
+            //Debug.Log("stick:" + hori + "," + vert);
+        }
+
+        if ((lsh != 0) || (lsv != 0))               //L Stick
+        {
+            Debug.Log("L stick:" + lsh + "," + lsv);
+        }
+       
+        if ((rsh != 0) || (rsv != 0))               //R Stick
+        {
+            Debug.Log("R stick:" + rsh + "," + rsv);
+        }
+        
+        if ((dph != 0) || (dpv != 0))               //D-Pad
+        {
+            Debug.Log("D Pad:" + dph + "," + dpv);
+        }
+        
+        if (tri > 0)                                //Trigger
+        {
+            Debug.Log("L trigger:" + tri);
+        }
+        else if (tri < 0)
+        {
+            Debug.Log("R trigger:" + tri);
+        }
+        else
+        {
+            //.Log("  trigger:none");
+        }
+        #endregion
+
+        //--------------------------------------
+        //'''''キャラクター移動'''''
+        //--------------------------------------
+        isFront = vert > 0;
+        isBack = vert < 0;
+        isLeft = hori < 0;
+        isRight = hori > 0;
+
+        //--------------------------------------
+        //'''''スピード制限'''''
+        //--------------------------------------
+        moveSpd = 2f * (Mathf.Abs(vert) + Mathf.Abs(hori));
+
+        if (moveSpd > 1.5f)          //スピード制限
+        {
+            moveSpd = 1.5f;
+        }
+        else if (moveSpd <= 1.5f)
+        {
+            moveSpd = 2f * (Mathf.Abs(vert) + Mathf.Abs(hori));
+        }
+
+
+        Vector3 v = new Vector3(0f, 0f, 0f);
+
+        if (isFront) v.z = moveSpd;
+        if (isBack) v.z = -moveSpd;
+        if (isLeft) v.x = -moveSpd;
+        if (isRight) v.x = moveSpd;
+        rb.velocity = v;
+
+        //animator.SetFloat("MoveSpeed", new Vector3(v.x, 0, v.z).magnitude);
+        //Vector3 diff = transform.position - AroundPos;
+        //AroundPos = transform.position;
+
+        //if (diff.magnitude > 0.01f)
+        //{
+        //    transform.rotation = Quaternion.LookRotation(diff);
+        //}
+
+    }
+
+
 
     void GetInputKey()
     {
         //A・Dキー、←→キーで横移動
-        float x = Input.GetAxisRaw("Horizontal") * Time.deltaTime * speed;
+        //float x = Input.GetAxisRaw("Horizontal") * Time.deltaTime * speed;
+        float x = Input.GetAxisRaw("Horizontal") * Time.deltaTime * moveSpd;
 
         //W・Sキー、↑↓キーで前後移動
-        float z = Input.GetAxisRaw("Vertical") * Time.deltaTime * speed;
+        //float z = Input.GetAxisRaw("Vertical") * Time.deltaTime * speed;
+        float z = Input.GetAxisRaw("Vertical") * Time.deltaTime * moveSpd;
 
         if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.RightArrow))
         {
@@ -50,8 +217,76 @@ public class TestMove : MonoBehaviour
             key = -1;
         }
     }
+
+    float hori = Input.GetAxis("Horizontal");
+    float vert = Input.GetAxis("Vertical");
+    
+    float sight_x = 0;
+    float sight_y = 0;
+
+    void SightProcon()
+    {
+        float angleH = Input.GetAxis("Horizontal2");
+        float angleV = Input.GetAxis("Vertical2");
+
+        if (sight_y > 80)
+        {
+            if (angleV < 0)
+            {
+                sight_y = sight_y + angleV;
+            }
+        }
+        else if (sight_y < -90)
+        {
+            if (angleV > 0)
+            {
+                sight_y = sight_y + angleV;
+            }
+        }
+        else
+        {
+            sight_y = sight_y + angleV;
+        }
+
+        if (sight_x >= 360)    //sight_x が360度を超えると360を引く、超えた分の端数はsight_xに残る
+        {
+            sight_x = sight_x - 360;
+        }
+        else if (sight_x < 0)  //sight_x が0度を下回ると360からsight_xを引く、残った分はsight_xに残る
+        {
+            sight_x = 360 - sight_x;
+        }
+        sight_x = sight_x + angleH;
+        transform.localRotation = Quaternion.Euler(sight_y, sight_x, 0);
+
+    }
     void Move()
     {
+        isFront = vert > 0;
+        isBack = vert < 0;
+        isLeft = hori < 0;
+        isRight = hori > 0;
+        moveSpd = 2f * (Mathf.Abs(vert) + Mathf.Abs(hori));
+        moveSpd = 2f * (Mathf.Abs(vert) + Mathf.Abs(hori));
+
+        if (moveSpd > 1.5f)          //スピード制限
+        {
+            moveSpd = 1.5f;
+        }
+        else if (moveSpd <= 1.5f)
+        {
+            moveSpd = 2f * (Mathf.Abs(vert) + Mathf.Abs(hori));
+        }
+        Vector3 v = new Vector3(0f, 0f, 0f);
+
+        if (isFront) v.z = moveSpd;
+        if (isBack) v.z = -moveSpd;
+        if (isLeft) v.x = -moveSpd;
+        if (isRight) v.x = moveSpd;
+        rb.velocity = v;
+
+
+
         if (Ground)
         {
             if (Input.GetButton("Jump"))
@@ -64,7 +299,8 @@ public class TestMove : MonoBehaviour
         }
 
         //現在の位置＋入力した数値の場所に移動する
-        rb.MovePosition(transform.position + new Vector3(Input.GetAxisRaw("Horizontal") * Time.deltaTime * speed, 0, Input.GetAxisRaw("Vertical") * Time.deltaTime * speed));
+        //rb.MovePosition(transform.position + new Vector3(Input.GetAxisRaw("Horizontal") * Time.deltaTime * speed, 0, Input.GetAxisRaw("Vertical") * Time.deltaTime * speed));
+        rb.MovePosition(transform.position + new Vector3(Input.GetAxisRaw("Horizontal") * Time.deltaTime * moveSpd, 0, Input.GetAxisRaw("Vertical") * Time.deltaTime * moveSpd));
 
         //ユニティちゃんの最新の位置から少し前の位置を引いて方向を割り出す
         Vector3 direction = transform.position - playerPos;

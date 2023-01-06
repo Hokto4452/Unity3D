@@ -14,6 +14,10 @@ public class PlayerCameraController : MonoBehaviour
     private float _rotation_x = 0f;          //現在のx軸回転角度
     private float _rotation_y = 0f;          //現在のy軸回転角度
 
+
+    float sight_x = 0;
+    float sight_y = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,9 +41,46 @@ public class PlayerCameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        moveMouse3rdPlayer();
+        ProCon3rd();
+        //moveMouse3rdPlayer();
         //moveMouse1stPlayer();
         //shotBullet();
+    }
+
+    public void ProCon3rd()
+    {
+        float angleH = Input.GetAxis("R_Stick_H");
+        float angleV = Input.GetAxis("R_Stick_V");
+
+        if (sight_y > 80)
+        {
+            if (angleV < 0)
+            {
+                sight_y = sight_y + angleV;
+            }
+        }
+        else if (sight_y < -90)
+        {
+            if (angleV > 0)
+            {
+                sight_y = sight_y + angleV;
+            }
+        }
+        else
+        {
+            sight_y = sight_y + angleV;
+        }
+
+        if (sight_x >= 360)    //sight_x が360度を超えると360を引く、超えた分の端数はsight_xに残る
+        {
+            sight_x = sight_x - 360;
+        }
+        else if (sight_x < 0)  //sight_x が0度を下回ると360からsight_xを引く、残った分はsight_xに残る
+        {
+            sight_x = 360 - sight_x;
+        }
+        sight_x = sight_x + angleH;
+        transform.localRotation = Quaternion.Euler(sight_y, sight_x, 0);
     }
 
     void shotBullet()

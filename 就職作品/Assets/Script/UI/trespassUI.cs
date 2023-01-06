@@ -16,15 +16,13 @@ public class trespassUI : MonoBehaviour
     {
         
     }
-
-    //Cube‚ÉN“ü‚µ‚Ä‚¢‚éŠÔ‚É”­¶
+    
     private void OnTriggerStay(Collider other)
     {
         _UIPassword.SetActive(true);
         
     }
-
-    //Cube‚©‚ç—£‚ê‚½‚Æ‚«‚É”­¶
+    
     private void OnTriggerExit(Collider other)
     {
         _UIPassword.SetActive(false);
