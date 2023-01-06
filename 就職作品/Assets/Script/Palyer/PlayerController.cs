@@ -60,11 +60,12 @@ public class PlayerController : MonoBehaviour
     //--------------- 更新 --------------------
     void FixedUpdate()
     {
+        //DebugLog();
         movePlayer();
         jumpPlayer();
         ProCon3rd();
         ProConMove();
-        DebugLog();
+       
     }
 
     void DebugLog()
@@ -87,67 +88,67 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown("joystick button 0"))
         {
-            Debug.Log("button0");
-        }
+            Debug.Log("A");
+        }   //A
         if (Input.GetKeyDown("joystick button 1"))
         {
-            Debug.Log("button1");
-        }
+            Debug.Log("B");
+        }   //B
         if (Input.GetKeyDown("joystick button 2"))
         {
-            Debug.Log("button2");
-        }
+            Debug.Log("Y");
+        }   //Y
         if (Input.GetKeyDown("joystick button 3"))
         {
-            Debug.Log("button3");
-        }
+            Debug.Log("X");
+        }   //X
         if (Input.GetKeyDown("joystick button 4"))
         {
-            Debug.Log("button4");
-        }
+            Debug.Log("L");
+        }   //L
         if (Input.GetKeyDown("joystick button 5"))
         {
-            Debug.Log("button5");
-        }
+            Debug.Log("R");
+        }   //R
         if (Input.GetKeyDown("joystick button 6"))
         {
-            Debug.Log("button6");
-        }
+            Debug.Log("ZL");
+        }   //ZL
         if (Input.GetKeyDown("joystick button 7"))
         {
-            Debug.Log("button7");
-        }
+            Debug.Log("ZR");
+        }   //ZR
         if (Input.GetKeyDown("joystick button 8"))
         {
-            Debug.Log("button8");
-        }
+            Debug.Log("-");
+        }   //-
         if (Input.GetKeyDown("joystick button 9"))
         {
-            Debug.Log("button9");
-        }
+            Debug.Log("+");
+        }   //+
         if ((hori != 0) || (vert != 0))           
         {
-            //Debug.Log("stick:" + hori + "," + vert);
-        }
+            // Debug.Log("stick:" + hori + "," + vert);
+        }              //Stick
         if ((lsh != 0) || (lsv != 0))
         {
-            Debug.Log("L stick:" + lsh + "," + lsv);
-        }
+           Debug.Log("L stick:" + lsh + "," + lsv);   
+        }                //L Stick
         if ((rsh != 0) || (rsv != 0))
         {
-            Debug.Log("R stick:" + rsh + "," + rsv);
-        }
+            Debug.Log("R Stick:" + rsh + "," + rsv);
+        }                //R Stick
         if ((dph != 0) || (dpv != 0)) 
         {
-            Debug.Log("D Pad:" + dph + "," + dpv);
-        }
+            Debug.Log("HV 十字キー:" + dph + "," + dpv);
+        }                //HV 十字キー
         if (tri > 0)
         {
-            Debug.Log("L trigger:" + tri);
+            //Debug.Log("dddd:" + tri);
         }
         else if (tri < 0)
         {
-            Debug.Log("R trigger:" + tri);
+            //Debug.Log("eee:" + tri);
         }
         else
         {
@@ -214,20 +215,25 @@ public class PlayerController : MonoBehaviour
         //--------------------------------------
         moveSpd = 2f * (Mathf.Abs(moveV) + Mathf.Abs(moveH));
 
-        if (moveSpd > 1.5f)          //スピード制限
+        if (moveSpd > 4f)          //スピード制限
         {
-            moveSpd = 1.5f;
+            moveSpd = 3.9f;
         }
-        else if (moveSpd <= 1.5f)
+        else if (moveSpd <= 4f)
         {
-            moveSpd = 2f * (Mathf.Abs(moveV) + Mathf.Abs(moveH));
+            moveSpd = 4f * (Mathf.Abs(moveV) + Mathf.Abs(moveH));
         }
         Vector3 v = new Vector3(0f, 0f, 0f);
 
         if (isFront)
         {
             transform.position += transform.forward * moveSpd * Time.deltaTime;
+            if (moveSpd >= 3)
+            {
+                runFlag();
+            }
             _animator.SetBool("walking", true);     //アニメーション実行
+
         }
         if (isBack)
         {
@@ -244,6 +250,7 @@ public class PlayerController : MonoBehaviour
             transform.position += transform.right * moveSpd * Time.deltaTime;
             _animator.SetBool("walking", true);     //アニメーション実行
         }
+        
     }
 
     //---------移動関数
