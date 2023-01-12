@@ -7,6 +7,8 @@ public class trespassUI : MonoBehaviour
 {
     //•\Ž¦‚µ‚½‚¢UI
     [SerializeField] GameObject _UIPassword;
+    [SerializeField] GameObject _UIKyeBoard;
+    [SerializeField] GameObject _UIKyeBoardButton;
 
     bool _isActive = false;
     bool _tFlag = false;
@@ -20,11 +22,14 @@ public class trespassUI : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         _UIPassword.SetActive(true);
-        
+        _UIKyeBoard.SetActive(true);
+        _UIKyeBoardButton.SetActive(true);
     }
     
     private void OnTriggerExit(Collider other)
     {
         _UIPassword.SetActive(false);
+        _UIKyeBoard.SetActive(false);
+        _UIKyeBoardButton.SetActive(false);
     }
 }

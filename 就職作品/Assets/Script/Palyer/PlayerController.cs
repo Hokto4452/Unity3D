@@ -39,6 +39,8 @@ public class PlayerController : MonoBehaviour
     private bool isRight;
     public float moveSpd;
 
+    
+
     //float x = Input.GetAxis("Horizontal");
     //float z = Input.GetAxis("Vertical");
     //float angleH = Input.GetAxis("Horizontal");
@@ -55,13 +57,14 @@ public class PlayerController : MonoBehaviour
 
         _runFlag = false;                           //ダッシュ用フラグ
         playerPos = transform.position;
-    }
+
+        }
 
     //--------------- 更新 --------------------
     void FixedUpdate()
     {
         //DebugLog();
-        movePlayer();
+        //movePlayer();
         jumpPlayer();
         ProCon3rd();
         ProConMove();
@@ -209,11 +212,11 @@ public class PlayerController : MonoBehaviour
         isBack = moveV < 0;
         isLeft = moveH < 0;
         isRight = moveH > 0;
-
+        
         //--------------------------------------
         //'''''スピード制限'''''
         //--------------------------------------
-        moveSpd = 2f * (Mathf.Abs(moveV) + Mathf.Abs(moveH));
+        moveSpd = 3f * (Mathf.Abs(moveV) + Mathf.Abs(moveH));
 
         if (moveSpd > 4f)          //スピード制限
         {
@@ -221,12 +224,13 @@ public class PlayerController : MonoBehaviour
         }
         else if (moveSpd <= 4f)
         {
-            moveSpd = 4f * (Mathf.Abs(moveV) + Mathf.Abs(moveH));
+            moveSpd = 3f * (Mathf.Abs(moveV) + Mathf.Abs(moveH));
         }
-        Vector3 v = new Vector3(0f, 0f, 0f);
+        //Vector3 v = new Vector3(0f, 0f, 0f);
 
         if (isFront)
         {
+
             transform.position += transform.forward * moveSpd * Time.deltaTime;
             if (moveSpd >= 3)
             {
@@ -251,6 +255,11 @@ public class PlayerController : MonoBehaviour
             _animator.SetBool("walking", true);     //アニメーション実行
         }
         
+    }
+
+    void ProConPassKyeBoard()
+    {
+
     }
 
     //---------移動関数
