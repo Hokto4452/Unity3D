@@ -13,8 +13,7 @@ public class PlayerCameraController : MonoBehaviour
     public float _max_rotation_x = 60f;      //x²‰ñ“]Šp“x‚ÌÅ‘å’l
     private float _rotation_x = 0f;          //Œ»İ‚Ìx²‰ñ“]Šp“x
     private float _rotation_y = 0f;          //Œ»İ‚Ìy²‰ñ“]Šp“x
-
-
+    
     float sight_x = 0;
     float sight_y = 0;
 

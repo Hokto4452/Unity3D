@@ -39,8 +39,6 @@ public class PlayerController : MonoBehaviour
     private bool isRight;
     public float moveSpd;
 
-    
-
     //float x = Input.GetAxis("Horizontal");
     //float z = Input.GetAxis("Vertical");
     //float angleH = Input.GetAxis("Horizontal");
@@ -57,7 +55,6 @@ public class PlayerController : MonoBehaviour
 
         _runFlag = false;                           //ダッシュ用フラグ
         playerPos = transform.position;
-
         }
 
     //--------------- 更新 --------------------
@@ -135,15 +132,15 @@ public class PlayerController : MonoBehaviour
         }              //Stick
         if ((lsh != 0) || (lsv != 0))
         {
-           Debug.Log("L stick:" + lsh + "," + lsv);   
+           //Debug.Log("L stick:" + lsh + "," + lsv);   
         }                //L Stick
         if ((rsh != 0) || (rsv != 0))
         {
-            Debug.Log("R Stick:" + rsh + "," + rsv);
+            //Debug.Log("R Stick:" + rsh + "," + rsv);
         }                //R Stick
         if ((dph != 0) || (dpv != 0)) 
         {
-            Debug.Log("HV 十字キー:" + dph + "," + dpv);
+            //Debug.Log("HV 十字キー:" + dph + "," + dpv);
         }                //HV 十字キー
         if (tri > 0)
         {
@@ -255,11 +252,6 @@ public class PlayerController : MonoBehaviour
             _animator.SetBool("walking", true);     //アニメーション実行
         }
         
-    }
-
-    void ProConPassKyeBoard()
-    {
-
     }
 
     //---------移動関数
