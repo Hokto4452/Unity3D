@@ -39,6 +39,13 @@ public class PlayerController : MonoBehaviour
     private bool isRight;
     public float moveSpd;
 
+    public enum MyState
+    {
+        Normal,
+        Damage
+    }
+    private MyState state;
+    
     //float x = Input.GetAxis("Horizontal");
     //float z = Input.GetAxis("Vertical");
     //float angleH = Input.GetAxis("Horizontal");
@@ -205,10 +212,13 @@ public class PlayerController : MonoBehaviour
         //--------------------------------------
         //'''''キャラクター移動'''''
         //--------------------------------------
-        isFront = moveV > 0;
-        isBack = moveV < 0;
-        isLeft = moveH < 0;
-        isRight = moveH > 0;
+        if (state == MyState.Normal)
+        {
+            isFront = moveV > 0;
+            isBack = moveV < 0;
+            isLeft = moveH < 0;
+            isRight = moveH > 0;
+        }
         
         //--------------------------------------
         //'''''スピード制限'''''
@@ -227,7 +237,6 @@ public class PlayerController : MonoBehaviour
 
         if (isFront)
         {
-
             transform.position += transform.forward * moveSpd * Time.deltaTime;
             if (moveSpd >= 3)
             {
@@ -362,6 +371,13 @@ public class PlayerController : MonoBehaviour
             door.GetComponent<ClearDoorOpen>().DoorMove();
         fieldObject.SetActive(false);
 
+    }
+
+    public void TakeDamage(Transform enemyTransform)
+    {
+        state = MyState.Damage;
+        //velocity = Vector3.zero;
+        _animator.SetTrigger("Damage");
     }
 
 

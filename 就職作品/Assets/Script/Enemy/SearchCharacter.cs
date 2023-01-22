@@ -21,9 +21,10 @@ public class SearchCharacter : MonoBehaviour
             //　敵キャラクターの状態を取得
             EnemyMovrAI3.EnemyState state = moveEnemy.GetState();
             //　敵キャラクターが追いかける状態でなければ追いかける設定に変更
-            if (state != EnemyMovrAI3.EnemyState.Chase)
+            if (state == EnemyMovrAI3.EnemyState.Walk||state ==EnemyMovrAI3.EnemyState.Wait)
             {
-                Debug.Log("プレイヤー発見");
+                //Debug.Log("プレイヤー発見");
+                //moveEnemy.SetState(EnemyMovrAI3.EnemyState.Chase, col.transform);
                 moveEnemy.SetState(EnemyMovrAI3.EnemyState.Chase, col.transform);
             }
         }
