@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Collections;
 
-public class EnemyMovrAI3 : MonoBehaviour
+public class BossAIMove : MonoBehaviour
 {
-    public enum EnemyState
+    public enum BossState
     {
         Walk,
         Wait,
@@ -14,7 +13,7 @@ public class EnemyMovrAI3 : MonoBehaviour
         Freeze
     };
 
-    private CharacterController enemyController;    //
+    private CharacterController _bossController;    //
     private Animator animator;                      //
     //　目的地
     private Vector3 destination;
@@ -33,78 +32,38 @@ public class EnemyMovrAI3 : MonoBehaviour
     //　経過時間
     private float elapsedTime;
     // 敵の状態
-    private EnemyState state;
+    private BossState state;
     //　プレイヤーTransform
     private Transform playerTransform;
 
     [SerializeField] float freezeTime = 0.5f;
-    
+
     // Start is called before the first frame update
     void Start()
     {
         setPosition = GetComponent<MovePosition>();
         setPosition.CreateRandomPosition();
-        enemyController = GetComponent<CharacterController>();
+        _bossController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         velocity = Vector3.zero;
         arrived = false;
         elapsedTime = 0f;
-        SetState(EnemyState.Walk);
-
-        //enemy = GetComponent<Enemy>();
-        //hp = maxHp;
-        //hpSlider = HPUI.transform.Find("HPBar").GetComponent<Slider>();
-        //hpSlider.value = 1f;
+        SetState(BossState.Walk);
     }
 
     // Update is called once per frame
     void Update()
     {
-        #region
-        //    if (!arrived)
-        //    {
-        //        if (enemyController.isGrounded)
-        //        {
-        //            velocity = Vector3.zero;
-        //            //animator.SetFloat("Speed", 2.0f);
-        //            direction = (destination - transform.position).normalized;
-        //            transform.LookAt(new Vector3(destination.x, transform.position.y, destination.z));
-        //            velocity = direction * walkSpeed;
-        //            //Debug.Log (destination);
-        //        }
-        //        velocity.y += Physics.gravity.y * Time.deltaTime;
-        //        enemyController.Move(velocity * Time.deltaTime);
-
-        //        //　目的地に到着したかどうかの判定
-        //        if (Vector3.Distance(transform.position, destination) < 0.5f)
-        //        {
-        //            arrived = true;
-        //            animator.SetFloat("Speed", 0.0f);
-        //        }
-        //        else
-        //        {
-        //            elapsedTime += Time.deltaTime;
-
-        //            //　待ち時間を越えたら次の目的地を設定
-        //            if (elapsedTime > waitTime)
-        //            {
-        //                setPosition.CreateRandomPosition();
-        //                destination = setPosition.GetDestination();
-        //                arrived = false;
-        //                elapsedTime = 0f;
-        //            }
-        //        }
-        //    }
-        #endregion
         //　見回りまたはキャラクターを追いかける状態
-        if (state == EnemyState.Walk || state == EnemyState.Chase)
+        if (state == BossState.Walk || state == BossState.Chase)
         {
             //　キャラクターを追いかける状態であればキャラクターの目的地を再設定
-            if (state == EnemyState.Chase)
+            if (state == BossState.Chase)
             {
                 setPosition.SetDestination(playerTransform.position);
             }
-            if (enemyController.isGrounded)
+            //　キャラクターが地面にいる状態
+            if (_bossController.isGrounded)
             {
                 velocity = Vector3.zero;
                 animator.SetFloat("Speed", 2.0f);
@@ -116,52 +75,52 @@ public class EnemyMovrAI3 : MonoBehaviour
             //　目的地に到着したかどうかの判定
             if (Vector3.Distance(transform.position, setPosition.GetDestination()) < 2f)
             {
-                SetState(EnemyState.Wait);
+                SetState(BossState.Wait);
                 animator.SetFloat("Speed", 0.0f);
             }
-            else if (state == EnemyState.Chase)
+            else if (state == BossState.Chase)
             {
                 //　攻撃する距離だったら攻撃
                 if (Vector3.Distance(transform.position, setPosition.GetDestination()) < 1f)
                 {
-                    SetState(EnemyState.Attack);
+                    SetState(BossState.Attack);
                 }
             }
             // 到着していたら一定時間待つ
-            else if (state == EnemyState.Wait)
+            else if (state == BossState.Wait)
             {
                 elapsedTime += Time.deltaTime;
 
                 //　待ち時間を越えたら次の目的地を設定
                 if (elapsedTime > waitTime)
                 {
-                    SetState(EnemyState.Walk);
+                    SetState(BossState.Walk);
                 }
             }
-            else if (state == EnemyState.Freeze)
+            else if (state == BossState.Freeze)
             {
                 elapsedTime += Time.deltaTime;
 
                 if (elapsedTime > freezeTime)
                 {
-                    SetState(EnemyState.Walk);
+                    SetState(BossState.Walk);
                 }
             }
             velocity.y += Physics.gravity.y * Time.deltaTime;
-            enemyController.Move(velocity * Time.deltaTime);
+            _bossController.Move(velocity * Time.deltaTime);
         }
     }
     //　敵キャラクターの状態変更メソッド
-    public void SetState(EnemyState tempState, Transform targetObj = null)
+    public void SetState(BossState tempState, Transform targetObj = null)
     {
-        if (tempState == EnemyState.Walk)
+        if (tempState == BossState.Walk)
         {
             arrived = false;
             elapsedTime = 0f;
             state = tempState;
             setPosition.CreateRandomPosition();
         }
-        else if (tempState == EnemyState.Chase)
+        else if (tempState == BossState.Chase)
         {
             state = tempState;
             //　待機状態から追いかける場合もあるのでOff
@@ -169,7 +128,7 @@ public class EnemyMovrAI3 : MonoBehaviour
             //　追いかける対象をセット
             playerTransform = targetObj;
         }
-        else if (tempState == EnemyState.Wait)
+        else if (tempState == BossState.Wait)
         {
             elapsedTime = 0f;
             state = tempState;
@@ -177,13 +136,13 @@ public class EnemyMovrAI3 : MonoBehaviour
             velocity = Vector3.zero;
             animator.SetFloat("Speed", 0f);
         }
-        else if (tempState == EnemyState.Attack)
+        else if (tempState == BossState.Attack)
         {
             velocity = Vector3.zero;
             animator.SetFloat("Speed", 0f);
             animator.SetBool("Attack", true);
         }
-        else if (tempState == EnemyState.Freeze)
+        else if (tempState == BossState.Freeze)
         {
             elapsedTime = 0f;
             velocity = Vector3.zero;
@@ -192,43 +151,8 @@ public class EnemyMovrAI3 : MonoBehaviour
         }
     }
 
-    //public void SetHp(int hp)
-    //{
-    //    this.hp = hp;
-
-    //    //　HP表示用UIのアップデート
-    //    UpdateHPValue();
-
-    //    if (hp <= 0)
-    //    {
-    //        //　HP表示用UIを非表示にする
-    //        HideStatusUI();
-    //    }
-    //}
-
-    //public int GetHp()
-    //{
-    //    return hp;
-    //}
-
-    //public int GetMaxHp()
-    //{
-    //    return maxHp;
-    //}
-
-    ////　死んだらHPUIを非表示にする
-    //public void HideStatusUI()
-    //{
-    //    HPUI.SetActive(false);
-    //}
-
-    //public void UpdateHPValue()
-    //{
-    //    hpSlider.value = (float)GetHp() / (float)GetMaxHp();
-    //}
-
     //　敵キャラクターの状態取得メソッド
-    public EnemyState GetState()
+    public BossState GetState()
     {
         return state;
     }
