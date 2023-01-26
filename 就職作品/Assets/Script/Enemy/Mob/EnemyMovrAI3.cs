@@ -36,6 +36,8 @@ public class EnemyMovrAI3 : MonoBehaviour
     //　プレイヤーTransform
     private Transform playerTransform;
 
+    private float walkTime;
+
     [SerializeField] float freezeTime = 0.5f;
     
     // Start is called before the first frame update
@@ -49,6 +51,7 @@ public class EnemyMovrAI3 : MonoBehaviour
         arrived = false;
         elapsedTime = 0f;
         SetState(EnemyState.Walk);
+        walkTime = 0f;
 
         //enemy = GetComponent<Enemy>();
         //hp = maxHp;
@@ -101,6 +104,7 @@ public class EnemyMovrAI3 : MonoBehaviour
             //　キャラクターを追いかける状態であればキャラクターの目的地を再設定
             if (state == EnemyState.Chase)
             {
+                Debug.Log("追跡中");
                 setPosition.SetDestination(playerTransform.position);
             }
             if (enemyController.isGrounded)
@@ -111,44 +115,58 @@ public class EnemyMovrAI3 : MonoBehaviour
                 transform.LookAt(new Vector3(setPosition.GetDestination().x, transform.position.y, setPosition.GetDestination().z));
                 velocity = direction * walkSpeed;
             }
-
-            //　目的地に到着したかどうかの判定
-            if (Vector3.Distance(transform.position, setPosition.GetDestination()) < 2f)
+            if (state == EnemyState.Walk)
             {
-                SetState(EnemyState.Wait);
-                animator.SetFloat("Speed", 0.0f);
+                Debug.Log("巡回");
+                walkTime += Time.deltaTime;
+                if (walkTime > 5)
+                {
+                    Debug.Log("巡回制限時間");
+                    SetState(EnemyState.Wait);
+                    animator.SetFloat("Speed", 0.0f);
+                }
+                //　目的地に到着したかどうかの判定
+                if (Vector3.Distance(transform.position, setPosition.GetDestination()) < 2f)
+                {
+                    Debug.Log("到着");
+                    SetState(EnemyState.Wait);
+                    animator.SetFloat("Speed", 0.0f);
+                }
+                
             }
             else if (state == EnemyState.Chase)
             {
                 //　攻撃する距離だったら攻撃
                 if (Vector3.Distance(transform.position, setPosition.GetDestination()) < 1f)
                 {
+                    Debug.Log("攻撃をします");
                     SetState(EnemyState.Attack);
                 }
             }
             // 到着していたら一定時間待つ
-            else if (state == EnemyState.Wait)
+        }
+        else if (state == EnemyState.Wait)
+        {
+            Debug.Log("停止します");
+            elapsedTime += Time.deltaTime;
+            Debug.Log(elapsedTime);
+            //　待ち時間を越えたら次の目的地を設定
+            if (elapsedTime > waitTime)
             {
-                elapsedTime += Time.deltaTime;
-
-                //　待ち時間を越えたら次の目的地を設定
-                if (elapsedTime > waitTime)
-                {
-                    SetState(EnemyState.Walk);
-                }
+                SetState(EnemyState.Walk);
             }
-            else if (state == EnemyState.Freeze)
+        }
+        else if (state == EnemyState.Freeze)
+        {
+            elapsedTime += Time.deltaTime;
+
+            if (elapsedTime > freezeTime)
             {
-                elapsedTime += Time.deltaTime;
-
-                if (elapsedTime > freezeTime)
-                {
-                    SetState(EnemyState.Walk);
-                }
+                SetState(EnemyState.Walk);
             }
+        }
             velocity.y += Physics.gravity.y * Time.deltaTime;
             enemyController.Move(velocity * Time.deltaTime);
-        }
     }
     //　敵キャラクターの状態変更メソッド
     public void SetState(EnemyState tempState, Transform targetObj = null)

@@ -5281,6 +5281,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 1
   waitTime: 5
+  limitmoveTime: 5
   freezeTime: 0.5
 --- !u!114 &421306855
 MonoBehaviour:
@@ -13478,6 +13479,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 1
   waitTime: 5
+  limitmoveTime: 5
   freezeTime: 0.5
 --- !u!114 &1228377929
 MonoBehaviour:

@@ -9,6 +9,8 @@ public class MovePosition : MonoBehaviour
     //　スタート位置
     private Vector3 startPosition;
 
+    [SerializeField] private GameObject _prefab;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,9 +22,14 @@ public class MovePosition : MonoBehaviour
     public void CreateRandomPosition()
     {
         //　ランダムなVector2の値を得る
-        var randDestination = Random.insideUnitCircle * 8;
+        var randDestination = Random.insideUnitCircle * 10;
         //　現在地にランダムな位置を足して目的地とする
-        SetDestination(startPosition + new Vector3(randDestination.x, 0, randDestination.y));
+        SetDestination(startPosition + new Vector3(randDestination.x, 5, randDestination.y));
+
+
+        ////var spawnPos = new Vector3(startPosition.x + randDestination.x, 5, startPosition.y + randDestination.y);
+        //var spawnPos = new Vector3(startPosition.x, 5, startPosition.y);
+        //Instantiate(_prefab, spawnPos, Quaternion.identity);
     }
 
     //　目的地を設定する
