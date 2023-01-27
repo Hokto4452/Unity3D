@@ -10,6 +10,7 @@ public class BossAIMove : MonoBehaviour
         Wait,
         Chase,
         Attack,
+        EruptionAttack,
         Freeze
     };
 
@@ -42,6 +43,8 @@ public class BossAIMove : MonoBehaviour
 
     [SerializeField] float freezeTime = 0.5f;
 
+    private eruptionAttack eruptionAttackFlag;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -55,6 +58,8 @@ public class BossAIMove : MonoBehaviour
         SetState(BossState.Walk);
         moveTime = 0f;
         walkTime = 0f;
+
+        eruptionAttackFlag = GetComponent<eruptionAttack>();
     }
 
     // Update is called once per frame
@@ -63,6 +68,15 @@ public class BossAIMove : MonoBehaviour
         //　見回りまたはキャラクターを追いかける状態
         if (state == BossState.Walk || state == BossState.Chase)
         {
+            //　キャラクターを追いかける状態であればキャラクターの目的地を再設定
+            if (state == BossState.Chase)
+            {
+                Debug.Log("追跡");
+                //Debug.Log(eruptionAttackFlag);
+                setPosition.SetDestination(playerTransform.position);
+                //SetState(BossState.EruptionAttack);
+            }
+            #region
             //if (state == BossState.Walk)
             //{
             //    Debug.Log("巡回中");
@@ -80,13 +94,6 @@ public class BossAIMove : MonoBehaviour
             //    moveTime += Time.deltaTime;
             //    Debug.Log(moveTime);
             //}
-            //　キャラクターを追いかける状態であればキャラクターの目的地を再設定
-            if (state == BossState.Chase)
-            {
-                Debug.Log("追跡");
-                setPosition.SetDestination(playerTransform.position);
-
-            }
             //if (state == BossState.Wait)
             //{
             //    Debug.Log("行動制限時間");
@@ -98,6 +105,7 @@ public class BossAIMove : MonoBehaviour
             //        SetState(BossState.Walk);
             //    }
             //}
+            #endregion
             //　キャラクターが地面にいる状態
             if (_bossController.isGrounded)
             {
@@ -107,10 +115,12 @@ public class BossAIMove : MonoBehaviour
                 transform.LookAt(new Vector3(setPosition.GetDestination().x, transform.position.y, setPosition.GetDestination().z));
                 velocity = direction * walkSpeed;
             }
+            //　巡回状態
             if (state == BossState.Walk)
             {
                 Debug.Log("巡回");
                 walkTime += Time.deltaTime;
+                //5秒以上巡回したらステートを変更
                 if (walkTime > 5)
                 {
                     Debug.Log("巡回制限時間");
@@ -125,6 +135,7 @@ public class BossAIMove : MonoBehaviour
                     animator.SetFloat("Speed", 0.0f);
                 }
             }
+            //　追跡状態
             else if (state == BossState.Chase)
             {
                 //　攻撃する距離だったら攻撃
@@ -133,6 +144,11 @@ public class BossAIMove : MonoBehaviour
                     Debug.Log("攻撃");
                     SetState(BossState.Attack);
                 }
+            }
+            else if (eruptionAttackFlag == true) 
+            {
+                Debug.Log("噴火攻撃");
+                SetState(BossState.EruptionAttack);
             }
         }
         // 到着していたら一定時間待つ
@@ -144,7 +160,7 @@ public class BossAIMove : MonoBehaviour
             //　待ち時間を越えたら次の目的地を設定
             if (elapsedTime > waitTime)
             {
-                Debug.Log("巡回を再開");
+                //Debug.Log("巡回を再開");
                 SetState(BossState.Walk);
             }
         }
@@ -172,15 +188,6 @@ public class BossAIMove : MonoBehaviour
             setPosition.CreateRandomPosition();
             //animator.SetFloat("Speed", 1f);
         }
-        //else if(tempState == BossState.WalkOut)
-        //{
-        //    //elapsedTime = 0f;
-        //    //moveTime = 0f;
-        //    state = tempState;
-        //    arrived = true;
-        //    velocity = Vector3.zero;
-        //    animator.SetFloat("Speed", 0f);
-        //}
         else if (tempState == BossState.Chase)
         {
             state = tempState;
@@ -203,6 +210,11 @@ public class BossAIMove : MonoBehaviour
             velocity = Vector3.zero;
             animator.SetFloat("Speed", 0f);
             animator.SetBool("Attack", true);
+        }
+        else if(tempState ==BossState.EruptionAttack)
+        {
+            velocity = Vector3.zero;
+            Debug.Log("噴火攻撃");
         }
         else if (tempState == BossState.Freeze)
         {
