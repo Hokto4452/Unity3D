@@ -44,6 +44,15 @@ public class BossAIMove : MonoBehaviour
     [SerializeField] float freezeTime = 0.5f;
 
     private eruptionAttack eruptionAttackFlag;
+    private float eruptionCountTime;
+    [SerializeField] private float beforeEruptionWait = 1f;
+    public int eruptionBulletCount = 1;
+    private float eruptionBulletInterval;
+    private float eruptionReloadInterval;
+    public bool notEruptionBullt;
+    bool haveEruptionBullet;
+    public GameObject posEruptionBullet;
+    public Rigidbody eruptionBullet;
 
     // Start is called before the first frame update
     void Start()
@@ -60,18 +69,23 @@ public class BossAIMove : MonoBehaviour
         walkTime = 0f;
 
         eruptionAttackFlag = GetComponent<eruptionAttack>();
+        eruptionCountTime = 0f;
+        notEruptionBullt = false;
+        haveEruptionBullet = false;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(eruptionBulletInterval);
         //　見回りまたはキャラクターを追いかける状態
         if (state == BossState.Walk || state == BossState.Chase)
         {
             //　キャラクターを追いかける状態であればキャラクターの目的地を再設定
             if (state == BossState.Chase)
             {
-                Debug.Log("追跡");
+                //Debug.Log("追跡");
                 //Debug.Log(eruptionAttackFlag);
                 setPosition.SetDestination(playerTransform.position);
                 //SetState(BossState.EruptionAttack);
@@ -118,19 +132,19 @@ public class BossAIMove : MonoBehaviour
             //　巡回状態
             if (state == BossState.Walk)
             {
-                Debug.Log("巡回");
+                //Debug.Log("巡回");
                 walkTime += Time.deltaTime;
                 //5秒以上巡回したらステートを変更
                 if (walkTime > 5)
                 {
-                    Debug.Log("巡回制限時間");
+                    //Debug.Log("巡回制限時間");
                     SetState(BossState.Wait);
                     animator.SetFloat("Speed", 0.0f);
                 }
                 //　目的地に到着したかどうかの判定
                 if (Vector3.Distance(transform.position, setPosition.GetDestination()) < 2f)
                 {
-                    Debug.Log("到着");
+                    //Debug.Log("到着");
                     SetState(BossState.Wait);
                     animator.SetFloat("Speed", 0.0f);
                 }
@@ -141,22 +155,22 @@ public class BossAIMove : MonoBehaviour
                 //　攻撃する距離だったら攻撃
                 if (Vector3.Distance(transform.position, setPosition.GetDestination()) < 1f)
                 {
-                    Debug.Log("攻撃");
+                    //Debug.Log("攻撃");
                     SetState(BossState.Attack);
                 }
             }
             else if (eruptionAttackFlag == true) 
             {
-                Debug.Log("噴火攻撃");
+                //Debug.Log("噴火攻撃");
                 SetState(BossState.EruptionAttack);
             }
         }
         // 到着していたら一定時間待つ
         else if (state == BossState.Wait)
         {
-            Debug.Log("停止");
+            //Debug.Log("停止");
             elapsedTime += Time.deltaTime;
-            Debug.Log(elapsedTime);
+            //Debug.Log(elapsedTime);
             //　待ち時間を越えたら次の目的地を設定
             if (elapsedTime > waitTime)
             {
@@ -170,7 +184,7 @@ public class BossAIMove : MonoBehaviour
 
             if (elapsedTime > freezeTime)
             {
-                Debug.Log("巡回を再開する");
+                //Debug.Log("巡回を再開する");
                 SetState(BossState.Walk);
             }
         }
@@ -214,6 +228,31 @@ public class BossAIMove : MonoBehaviour
         else if(tempState ==BossState.EruptionAttack)
         {
             velocity = Vector3.zero;
+            Rigidbody clone;
+            if(eruptionBulletCount == 0)
+            {
+                haveEruptionBullet = true;
+            }
+
+            eruptionReloadInterval += Time.deltaTime;
+            if(eruptionReloadInterval > 3)
+            {
+                eruptionBulletInterval += Time.deltaTime;
+                if(eruptionBulletCount > 0)
+                {
+                    eruptionBulletCount -= 1;
+                    notEruptionBullt = true;
+                    clone = Instantiate(eruptionBullet, posEruptionBullet.transform.position, transform.rotation) as Rigidbody;
+                    clone.velocity = transform.TransformDirection(Vector3.up * 3f);
+                }
+            }
+
+            //eruptionCounTime += Time.deltaTime;
+            //if(eruptionCounTime >= beforeEruptionWait)
+            //{
+                
+            //}
+
             Debug.Log("噴火攻撃");
         }
         else if (tempState == BossState.Freeze)

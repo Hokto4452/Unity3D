@@ -16,7 +16,12 @@ public class eruptionAttack : MonoBehaviour
         eruptionAttackFlag = false;
     }
 
-    void OnTriggerEnter(Collider other)
+    public void Update()
+    {
+        
+    }
+
+    void OnTriggerStay(Collider other)
     {
         if (other.tag == "Player")
         {
