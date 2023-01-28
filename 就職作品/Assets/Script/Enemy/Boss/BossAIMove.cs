@@ -11,6 +11,7 @@ public class BossAIMove : MonoBehaviour
         Chase,
         Attack,
         EruptionAttack,
+        BackJump,
         Freeze
     };
 
@@ -54,6 +55,8 @@ public class BossAIMove : MonoBehaviour
     public GameObject posEruptionBullet;
     public Rigidbody eruptionBullet;
 
+    private backJump backJumpFlag;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -72,7 +75,8 @@ public class BossAIMove : MonoBehaviour
         eruptionCountTime = 0f;
         notEruptionBullt = false;
         haveEruptionBullet = false;
-        
+
+        backJumpFlag = GetComponent<backJump>();
     }
 
     // Update is called once per frame
@@ -164,6 +168,11 @@ public class BossAIMove : MonoBehaviour
                 //Debug.Log("噴火攻撃");
                 SetState(BossState.EruptionAttack);
             }
+            else if (backJumpFlag == true)
+            {
+                //Debug.Log("後ろジャンプ");
+                SetState(BossState.BackJump);
+            }
         }
         // 到着していたら一定時間待つ
         else if (state == BossState.Wait)
@@ -225,7 +234,7 @@ public class BossAIMove : MonoBehaviour
             animator.SetFloat("Speed", 0f);
             animator.SetBool("Attack", true);
         }
-        else if(tempState ==BossState.EruptionAttack)
+        else if(tempState == BossState.EruptionAttack)
         {
             velocity = Vector3.zero;
             Rigidbody clone;
@@ -246,14 +255,14 @@ public class BossAIMove : MonoBehaviour
                     clone.velocity = transform.TransformDirection(Vector3.up * 3f);
                 }
             }
-
-            //eruptionCounTime += Time.deltaTime;
-            //if(eruptionCounTime >= beforeEruptionWait)
-            //{
-                
-            //}
-
             Debug.Log("噴火攻撃");
+        }
+        else if(tempState == BossState.BackJump)
+        {
+            //後ろに移動velocityとジャンプを同時に行う
+
+
+            Debug.Log("後ろジャンプ");
         }
         else if (tempState == BossState.Freeze)
         {

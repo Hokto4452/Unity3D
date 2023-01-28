@@ -5266,6 +5266,7 @@ Transform:
   - {fileID: 160222515}
   - {fileID: 507256333}
   - {fileID: 1922574707}
+  - {fileID: 1141894296}
   - {fileID: 839525616}
   - {fileID: 1800660381}
   m_Father: {fileID: 0}
@@ -5288,6 +5289,10 @@ MonoBehaviour:
   limitmoveTime: 5
   freezeTime: 0.5
   beforeEruptionWait: 1
+  eruptionBulletCount: 1
+  notEruptionBullt: 0
+  posEruptionBullet: {fileID: 1922574706}
+  eruptionBullet: {fileID: 2806548363237525142, guid: 80dc604bbf4a3d74eb3426f6bd32110a, type: 3}
 --- !u!114 &421306855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8505,7 +8510,7 @@ RectTransform:
   m_Children:
   - {fileID: 2119686473}
   m_Father: {fileID: 421306853}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -12694,6 +12699,66 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1138622075}
   m_Mesh: {fileID: 4300002, guid: 1b74ff2139ba6ea47803d0c80ee0702a, type: 3}
+--- !u!1 &1141894295
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1141894296}
+  - component: {fileID: 1141894298}
+  - component: {fileID: 1141894297}
+  m_Layer: 0
+  m_Name: backJump
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1141894296
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1141894295}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.24000001, z: -1.9900002}
+  m_LocalScale: {x: 4.996799, y: 0.74362, z: 2.8214295}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 421306853}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1141894297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1141894295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b60f9c5a2f9a2cb48bce9f4f37ef597e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AttackWaveFlag: {fileID: 0}
+  backJumpFlag: 0
+--- !u!65 &1141894298
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1141894295}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1142796448
 GameObject:
   m_ObjectHideFlags: 0
@@ -13546,6 +13611,10 @@ MonoBehaviour:
   limitmoveTime: 5
   freezeTime: 0.5
   beforeEruptionWait: 1
+  eruptionBulletCount: 1
+  notEruptionBullt: 0
+  posEruptionBullet: {fileID: 0}
+  eruptionBullet: {fileID: 0}
 --- !u!114 &1228377929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20961,7 +21030,7 @@ RectTransform:
   m_Children:
   - {fileID: 1428629383}
   m_Father: {fileID: 421306853}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
