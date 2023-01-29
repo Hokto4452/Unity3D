@@ -21,7 +21,7 @@ public class backJump : MonoBehaviour
     {
         
     }
-    void OnTriggerEnter(Collider collision)
+    void OnTriggerStay(Collider collision)
     {
         if(collision.tag == "Player")
         {

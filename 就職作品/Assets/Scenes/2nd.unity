@@ -5284,7 +5284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9c0692a482c6ae42ae75d68341c613b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 1
+  walkSpeed: 2
   waitTime: 5
   limitmoveTime: 5
   freezeTime: 0.5
@@ -5293,6 +5293,10 @@ MonoBehaviour:
   notEruptionBullt: 0
   posEruptionBullet: {fileID: 1922574706}
   eruptionBullet: {fileID: 2806548363237525142, guid: 80dc604bbf4a3d74eb3426f6bd32110a, type: 3}
+  jumpForce: 70
+  backSpeed: 10
+  gravity: 20
+  player: {fileID: 0}
 --- !u!114 &421306855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13615,6 +13619,10 @@ MonoBehaviour:
   notEruptionBullt: 0
   posEruptionBullet: {fileID: 0}
   eruptionBullet: {fileID: 0}
+  jumpForce: 600
+  backSpeed: 5
+  gravity: 20
+  player: {fileID: 0}
 --- !u!114 &1228377929
 MonoBehaviour:
   m_ObjectHideFlags: 0

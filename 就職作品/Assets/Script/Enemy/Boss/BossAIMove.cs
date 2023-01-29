@@ -56,6 +56,16 @@ public class BossAIMove : MonoBehaviour
     public Rigidbody eruptionBullet;
 
     private backJump backJumpFlag;
+    private Rigidbody bacaJump;
+    public float jumpForce = 600.0f;
+    public float backSpeed = 5f;
+    public float gravity = 20.0f;
+    private float jumpInterval;
+    private float jumpReloadInterval;
+    public GameObject player;
+    bool haveJump;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -77,12 +87,14 @@ public class BossAIMove : MonoBehaviour
         haveEruptionBullet = false;
 
         backJumpFlag = GetComponent<backJump>();
+        //bacaJump = GetComponent<CharacterController>();
+        haveJump = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(eruptionBulletInterval);
+        Debug.Log(jumpReloadInterval);
         //　見回りまたはキャラクターを追いかける状態
         if (state == BossState.Walk || state == BossState.Chase)
         {
@@ -92,7 +104,6 @@ public class BossAIMove : MonoBehaviour
                 //Debug.Log("追跡");
                 //Debug.Log(eruptionAttackFlag);
                 setPosition.SetDestination(playerTransform.position);
-                //SetState(BossState.EruptionAttack);
             }
             #region
             //if (state == BossState.Walk)
@@ -128,6 +139,7 @@ public class BossAIMove : MonoBehaviour
             if (_bossController.isGrounded)
             {
                 velocity = Vector3.zero;
+                velocity = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
                 animator.SetFloat("Speed", 2.0f);
                 direction = (setPosition.GetDestination() - transform.position).normalized;
                 transform.LookAt(new Vector3(setPosition.GetDestination().x, transform.position.y, setPosition.GetDestination().z));
@@ -242,7 +254,6 @@ public class BossAIMove : MonoBehaviour
             {
                 haveEruptionBullet = true;
             }
-
             eruptionReloadInterval += Time.deltaTime;
             if(eruptionReloadInterval > 3)
             {
@@ -255,12 +266,34 @@ public class BossAIMove : MonoBehaviour
                     clone.velocity = transform.TransformDirection(Vector3.up * 3f);
                 }
             }
-            Debug.Log("噴火攻撃");
+            //Debug.Log("噴火攻撃");
         }
         else if(tempState == BossState.BackJump)
         {
-            //後ろに移動velocityとジャンプを同時に行う
-
+            //後ろに移動とジャンプを同時に行う
+            if (haveJump == true)
+            {
+                //jumpForceの分だけ上方に力がかかる
+                //_bossController.AddForce(transform.up * jumpForce);
+                velocity.y = jumpForce;
+            }
+            else if (haveJump == false)
+            {
+                //_bossController.AddForce(-transform.forward * backSpeed);
+                velocity.x = -backSpeed;
+            }
+            jumpReloadInterval += Time.deltaTime;
+            if (jumpReloadInterval < 3)
+            {
+                haveJump = false;
+            }
+            else if (jumpReloadInterval > 3)
+            {
+                haveJump = true;
+                jumpReloadInterval = 0f;
+            }
+            velocity.y = velocity.y - (gravity * Time.deltaTime);
+            _bossController.Move(velocity * Time.deltaTime);
 
             Debug.Log("後ろジャンプ");
         }
@@ -271,6 +304,7 @@ public class BossAIMove : MonoBehaviour
             animator.SetFloat("Speed", 0f);
             animator.SetBool("Attack", false);
         }
+
     }
 
     //　敵キャラクターの状態取得メソッド

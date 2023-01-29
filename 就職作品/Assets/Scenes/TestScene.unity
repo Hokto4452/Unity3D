@@ -891,6 +891,7 @@ GameObject:
   - component: {fileID: 1111281161}
   - component: {fileID: 1111281166}
   - component: {fileID: 1111281165}
+  - component: {fileID: 1111281167}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Untagged
@@ -969,7 +970,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1111281160}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5, y: 5, z: 13}
+  m_LocalPosition: {x: -1, y: 5, z: 3}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -984,7 +985,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1111281160}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c53d6281433cd5044a72079300c800fe, type: 3}
   m_Name: 
@@ -1007,8 +1008,24 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!114 &1111281167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1111281160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73e0a712cee0aa04fabef63cc6067e4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpForce: 1200
+  backSpeed: 10
+  jumpCount: 1
+  notJump: 0
 --- !u!1 &1191116644
 GameObject:
   m_ObjectHideFlags: 0
