@@ -21,7 +21,7 @@ public class goal : MonoBehaviour
     {
         if (other.gameObject.name == "Player")
         {
-            SceneManager.LoadScene("1stGoal");
+            SceneManager.LoadScene("2nd");
         }
     }
 }
