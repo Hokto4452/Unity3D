@@ -12,6 +12,7 @@ public class BossAIMove : MonoBehaviour
         Attack,
         EruptionAttack,
         BackJump,
+        Splash,
         Freeze
     };
 
@@ -65,7 +66,17 @@ public class BossAIMove : MonoBehaviour
     public GameObject player;
     bool haveJump;
 
-
+    private splashAttack splashFlag;
+    private splashAttack splashBulletPos;
+    private float splashCountTime;
+    [SerializeField] private float beforeSplashWait = 1f;
+    public int splashCount = 12;
+    private float splashInterval;
+    private float splashReloadinterval;
+    public bool notSplash;
+    bool haveSplash;
+    public GameObject posSplash;
+    public Rigidbody splash;
 
     // Start is called before the first frame update
     void Start()
@@ -89,12 +100,19 @@ public class BossAIMove : MonoBehaviour
         backJumpFlag = GetComponent<backJump>();
         //bacaJump = GetComponent<CharacterController>();
         haveJump = true;
+
+        splashFlag = GetComponent<splashAttack>();
+        splashBulletPos.GetComponent<splashAttack>();
+        
+        splashCountTime = 0f;
+        notSplash = false;
+        haveSplash = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(jumpReloadInterval);
+        //Debug.Log(splashInterval);
         //　見回りまたはキャラクターを追いかける状態
         if (state == BossState.Walk || state == BossState.Chase)
         {
@@ -184,6 +202,10 @@ public class BossAIMove : MonoBehaviour
             {
                 //Debug.Log("後ろジャンプ");
                 SetState(BossState.BackJump);
+            }
+            else if (splashFlag == true)
+            {
+                SetState(BossState.Splash);
             }
         }
         // 到着していたら一定時間待つ
@@ -295,7 +317,30 @@ public class BossAIMove : MonoBehaviour
             velocity.y = velocity.y - (gravity * Time.deltaTime);
             _bossController.Move(velocity * Time.deltaTime);
 
-            Debug.Log("後ろジャンプ");
+            //Debug.Log("後ろジャンプ");
+        }
+        else if (tempState == BossState.Splash)
+        {
+            velocity = Vector3.zero;
+            Rigidbody splashBullet;
+            if(splashCount == 0)
+            {
+                haveSplash = true;
+            }
+            splashInterval += Time.deltaTime;
+            if (splashInterval >= 3)
+            {
+                if(splashCount >0)
+                {
+                    splashCount -= 1;
+                    notSplash = true;
+                    splashBullet = Instantiate(splash,posSplash.transform.position, transform.rotation) as Rigidbody;
+                    splashBullet.velocity = transform.TransformDirection(Vector3.forward * 1f);
+                }
+                Debug.Log("噴水びちゃびちゃ攻撃");
+            }
+
+            
         }
         else if (tempState == BossState.Freeze)
         {
@@ -306,7 +351,7 @@ public class BossAIMove : MonoBehaviour
         }
 
     }
-
+    
     //　敵キャラクターの状態取得メソッド
     public BossState GetState()
     {

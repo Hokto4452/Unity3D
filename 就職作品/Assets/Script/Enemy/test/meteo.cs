@@ -68,9 +68,10 @@ public class meteo : MonoBehaviour
             //AudioSource.PlayClipAtPoint(sound, Camera.main.transform.position);
 
             InTime += Time.deltaTime;
-            if(InTime<0.2f)
-            { 
-}
+            if(InTime<2f)
+            {
+
+            }
 
         }
     }

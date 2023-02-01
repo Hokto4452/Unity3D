@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class bamp : MonoBehaviour
 {
+    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +46,9 @@ public class bamp : MonoBehaviour
             Rigidbody Rb = clone.GetComponent<Rigidbody>();
             Rb.isKinematic = true;
             Debug.Log(Rb.isKinematic);
+
+
+            
         }
     }
 }
