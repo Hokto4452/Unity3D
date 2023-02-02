@@ -15,7 +15,7 @@ public class BossAIMove : MonoBehaviour
         Splash,
         Freeze
     };
-
+    public Vector3 bossPos = new Vector3();
     private CharacterController _bossController;    //
     private Animator animator;                      //
     //　目的地
@@ -68,15 +68,18 @@ public class BossAIMove : MonoBehaviour
 
     private splashAttack splashFlag;
     private splashAttack splashBulletPos;
+    [SerializeField]GameObject splashPos;
     private float splashCountTime;
     [SerializeField] private float beforeSplashWait = 1f;
     public int splashCount = 12;
+    public Vector3[] pos = new Vector3[12];
     private float splashInterval;
     private float splashReloadinterval;
     public bool notSplash;
     bool haveSplash;
     public GameObject posSplash;
-    public Rigidbody splash;
+    //public Rigidbody splash;
+    public GameObject splash;
 
     // Start is called before the first frame update
     void Start()
@@ -103,6 +106,8 @@ public class BossAIMove : MonoBehaviour
 
         splashFlag = GetComponent<splashAttack>();
         splashBulletPos.GetComponent<splashAttack>();
+        splashPos.GetComponent<splashAttack>();
+
         
         splashCountTime = 0f;
         notSplash = false;
@@ -112,6 +117,7 @@ public class BossAIMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         //Debug.Log(splashInterval);
         //　見回りまたはキャラクターを追いかける状態
         if (state == BossState.Walk || state == BossState.Chase)
@@ -321,8 +327,9 @@ public class BossAIMove : MonoBehaviour
         }
         else if (tempState == BossState.Splash)
         {
+            pos = splashPos.GetComponent<splashAttack>().pushPos;
             velocity = Vector3.zero;
-            Rigidbody splashBullet;
+            Rigidbody[] splashBullet = new Rigidbody[12];
             if(splashCount == 0)
             {
                 haveSplash = true;
@@ -330,13 +337,33 @@ public class BossAIMove : MonoBehaviour
             splashInterval += Time.deltaTime;
             if (splashInterval >= 3)
             {
-                if(splashCount >0)
+                if (notSplash == false)
                 {
-                    splashCount -= 1;
+                    for (int i = 0; i < 12; i++)
+                    {
+                        //splash.transform.position = pos[i];
+                        //splash.gameObject.AddComponent<Rigidbody>();
+                        GameObject sp = Instantiate(splash, pos[i], transform.rotation);
+                        //sp.transform.position = pos[i];
+                        sp.GetComponent<Rigidbody>().AddForce(Vector3.forward * 1000f);
+                        //splash.velocity = transform.TransformDirection(Vector3.forward * 1000f);
+                        //splashBullet[i] = Instantiate(splash, pos[i], transform.rotation) as Rigidbody;
+                        //splashBullet[i].velocity = transform.TransformDirection(Vector3.forward * 1f);
+
+                    }
                     notSplash = true;
-                    splashBullet = Instantiate(splash,posSplash.transform.position, transform.rotation) as Rigidbody;
-                    splashBullet.velocity = transform.TransformDirection(Vector3.forward * 1f);
                 }
+                //if(splashCount >0)
+                //{
+                //    splashCount -= 1;
+                //    notSplash = true;
+                //    for (int i = 0; i < 1; i++)
+                //    {
+                //        splashBullet = Instantiate(splash, pos[i], transform.rotation) as Rigidbody;
+                //        splashBullet.velocity = transform.TransformDirection(Vector3.forward * 1f);
+                //    }
+
+                //}
                 Debug.Log("噴水びちゃびちゃ攻撃");
             }
 

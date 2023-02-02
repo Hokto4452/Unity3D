@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - bullet
+  - BossEnemyBullet
   layers:
   - Default
   - TransparentFX
@@ -16,7 +17,7 @@ TagManager:
   - BigMap
   - Player
   - Enemy
-  - 
+  - BossEnemyBullet
   - 
   - 
   - 

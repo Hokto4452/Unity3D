@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviour
     public GameObject door;
     public GameObject fieldObject;
 
+    public float _hp = 100;
+    Slider _slider;
 
     public float sight_x = 0;
     public float sight_y = 0;
@@ -62,7 +64,9 @@ public class PlayerController : MonoBehaviour
 
         _runFlag = false;                           //ダッシュ用フラグ
         playerPos = transform.position;
-        }
+
+        _slider = GameObject.Find("PlayerHP").GetComponent<Slider>();
+    }
 
     //--------------- 更新 --------------------
     void FixedUpdate()
@@ -352,6 +356,15 @@ public class PlayerController : MonoBehaviour
     //ジャンプ後、Planeに接触した時に接触判定をtrueに戻す
     void OnTriggerEnter(Collider col)
     {
+        if(col.gameObject.tag == "BossEnemyBullet")
+        {
+            _hp -= 20;
+            if (_hp < _slider.minValue)
+            {
+
+            }
+        }
+
         if (col.gameObject.tag == "Ground")
         {
             if (!Ground)
