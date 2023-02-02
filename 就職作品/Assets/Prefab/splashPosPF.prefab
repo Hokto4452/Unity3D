@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 904147829421249227}
   m_Layer: 0
   m_Name: splashPosPF
-  m_TagString: Untagged
+  m_TagString: BossEnemyBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -30,8 +30,9 @@ public class PlayerController : MonoBehaviour
     public GameObject door;
     public GameObject fieldObject;
 
-    public float _hp = 100;
-    Slider _slider;
+    public int maxHp = 100;
+    public int currentHp;
+    public Slider slider;
 
     public float sight_x = 0;
     public float sight_y = 0;
@@ -65,7 +66,11 @@ public class PlayerController : MonoBehaviour
         _runFlag = false;                           //ダッシュ用フラグ
         playerPos = transform.position;
 
-        _slider = GameObject.Find("PlayerHP").GetComponent<Slider>();
+        //Sliderを満タンにする。
+        slider.value = 1;
+        //現在のHPを最大HPと同じに。
+        currentHp = maxHp;
+        Debug.Log("Start currentHp : " + currentHp);
     }
 
     //--------------- 更新 --------------------
@@ -358,11 +363,16 @@ public class PlayerController : MonoBehaviour
     {
         if(col.gameObject.tag == "BossEnemyBullet")
         {
-            _hp -= 20;
-            if (_hp < _slider.minValue)
-            {
-
-            }
+            int damage = 20;
+            Debug.Log("damage : " + damage);
+            //現在のHPからダメージを引く
+            currentHp = currentHp - damage;
+            Debug.Log("After currentHp : " + currentHp);
+            //最大HPにおける現在のHPをSliderに反映。
+            //int同士の割り算は小数点以下は0になるので、
+            //(float)をつけてfloatの変数として振舞わせる。
+            slider.value = (float)currentHp / (float)maxHp; ;
+            Debug.Log("slider.value : " + slider.value);
         }
 
         if (col.gameObject.tag == "Ground")

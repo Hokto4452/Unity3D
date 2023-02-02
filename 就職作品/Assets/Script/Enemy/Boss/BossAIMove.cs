@@ -345,7 +345,7 @@ public class BossAIMove : MonoBehaviour
                         //splash.gameObject.AddComponent<Rigidbody>();
                         GameObject sp = Instantiate(splash, pos[i], transform.rotation);
                         //sp.transform.position = pos[i];
-                        sp.GetComponent<Rigidbody>().AddForce(Vector3.forward * 1000f);
+                        sp.GetComponent<Rigidbody>().AddForce(Vector3.forward * 10f);
                         //splash.velocity = transform.TransformDirection(Vector3.forward * 1000f);
                         //splashBullet[i] = Instantiate(splash, pos[i], transform.rotation) as Rigidbody;
                         //splashBullet[i].velocity = transform.TransformDirection(Vector3.forward * 1f);
