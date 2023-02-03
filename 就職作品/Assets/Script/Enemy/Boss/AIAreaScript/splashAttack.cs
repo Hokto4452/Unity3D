@@ -20,6 +20,8 @@ public class splashAttack : MonoBehaviour
 
     public Vector3[] pushPos = new Vector3[12];
 
+    public GameObject[] muzzle = new GameObject[12];
+
     //private BossAIMove _bossPos;
     //public Vector3 bossPos = new Vector3();
 
@@ -41,7 +43,8 @@ public class splashAttack : MonoBehaviour
         int i = 0;
         foreach(Transform children in splashParent.transform)
         {
-            pushPos[i] = children.gameObject.transform.position;
+            //pushPos[i] = children.gameObject.transform.position;
+            muzzle[i] = children.gameObject;
             i++;
         }
     }

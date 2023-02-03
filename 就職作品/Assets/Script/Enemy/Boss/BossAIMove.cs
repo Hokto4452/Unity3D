@@ -73,6 +73,7 @@ public class BossAIMove : MonoBehaviour
     [SerializeField] private float beforeSplashWait = 1f;
     public int splashCount = 12;
     public Vector3[] pos = new Vector3[12];
+    public GameObject[] muzzle = new GameObject[12];
     private float splashInterval;
     private float splashReloadinterval;
     public bool notSplash;
@@ -327,7 +328,8 @@ public class BossAIMove : MonoBehaviour
         }
         else if (tempState == BossState.Splash)
         {
-            pos = splashPos.GetComponent<splashAttack>().pushPos;
+            //pos = splashPos.GetComponent<splashAttack>().pushPos;
+            muzzle = splashPos.GetComponent<splashAttack>().muzzle;
             velocity = Vector3.zero;
             Rigidbody[] splashBullet = new Rigidbody[12];
             if(splashCount == 0)
@@ -343,9 +345,9 @@ public class BossAIMove : MonoBehaviour
                     {
                         //splash.transform.position = pos[i];
                         //splash.gameObject.AddComponent<Rigidbody>();
-                        GameObject sp = Instantiate(splash, pos[i], transform.rotation);
+                        GameObject sp = Instantiate(splash, muzzle[i].transform.position, muzzle[i].transform.rotation);
                         //sp.transform.position = pos[i];
-                        sp.GetComponent<Rigidbody>().AddForce(Vector3.forward * 10f);
+                        sp.GetComponent<Rigidbody>().AddForce(muzzle[i].transform.forward * 10f);
                         //splash.velocity = transform.TransformDirection(Vector3.forward * 1000f);
                         //splashBullet[i] = Instantiate(splash, pos[i], transform.rotation) as Rigidbody;
                         //splashBullet[i].velocity = transform.TransformDirection(Vector3.forward * 1f);
