@@ -81,6 +81,7 @@ public class BossAIMove : MonoBehaviour
     public GameObject posSplash;
     //public Rigidbody splash;
     public GameObject splash;
+    public GameObject splashbuullet;
 
     // Start is called before the first frame update
     void Start()
@@ -291,6 +292,8 @@ public class BossAIMove : MonoBehaviour
                 {
                     eruptionBulletCount -= 1;
                     notEruptionBullt = true;
+                    GameObject sp = Instantiate(splashbuullet, posEruptionBullet.transform.position, transform.rotation);
+                    Destroy(sp, 3.0f);
                     clone = Instantiate(eruptionBullet, posEruptionBullet.transform.position, transform.rotation) as Rigidbody;
                     clone.velocity = transform.TransformDirection(Vector3.up * 3f);
                 }
@@ -347,7 +350,7 @@ public class BossAIMove : MonoBehaviour
                         //splash.gameObject.AddComponent<Rigidbody>();
                         GameObject sp = Instantiate(splash, muzzle[i].transform.position, muzzle[i].transform.rotation);
                         //sp.transform.position = pos[i];
-                        sp.GetComponent<Rigidbody>().AddForce(muzzle[i].transform.forward * 10f);
+                        sp.GetComponent<Rigidbody>().AddForce(muzzle[i].transform.forward * 1000f);
                         //splash.velocity = transform.TransformDirection(Vector3.forward * 1000f);
                         //splashBullet[i] = Instantiate(splash, pos[i], transform.rotation) as Rigidbody;
                         //splashBullet[i].velocity = transform.TransformDirection(Vector3.forward * 1f);

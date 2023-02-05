@@ -282,15 +282,15 @@ InputManager:
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: 
+    positiveButton: escape
     altNegativeButton: 
-    altPositiveButton: 
-    gravity: 0
-    dead: 0.19
-    sensitivity: 1
+    altPositiveButton: joystick button 1
+    gravity: 1000
+    dead: 0.001
+    sensitivity: 1000
     snap: 0
     invert: 0
-    type: 1
+    type: 0
     axis: 0
     joyNum: 0
   - serializedVersion: 3
@@ -298,16 +298,16 @@ InputManager:
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: 
+    positiveButton: escape
     altNegativeButton: 
-    altPositiveButton: 
-    gravity: 0
-    dead: 0.19
-    sensitivity: 1
+    altPositiveButton: joystick button 1
+    gravity: 1000
+    dead: 0.001
+    sensitivity: 1000
     snap: 0
     invert: 0
-    type: 1
-    axis: 1
+    type: 0
+    axis: 0
     joyNum: 0
   - serializedVersion: 3
     m_Name: L_Stick_H
@@ -355,7 +355,7 @@ InputManager:
     snap: 0
     invert: 0
     type: 2
-    axis: 2
+    axis: 3
     joyNum: 0
   - serializedVersion: 3
     m_Name: R_Stick_V
@@ -369,9 +369,9 @@ InputManager:
     dead: 0.2
     sensitivity: 1
     snap: 0
-    invert: 0
-    type: 2
-    axis: 3
+    invert: 1
+    type: 0
+    axis: 4
     joyNum: 0
   - serializedVersion: 3
     m_Name: D_Pad_H
@@ -387,7 +387,7 @@ InputManager:
     snap: 0
     invert: 0
     type: 2
-    axis: 4
+    axis: 5
     joyNum: 0
   - serializedVersion: 3
     m_Name: D_Pad_V
@@ -403,7 +403,7 @@ InputManager:
     snap: 0
     invert: 0
     type: 2
-    axis: 5
+    axis: 6
     joyNum: 0
   - serializedVersion: 3
     m_Name: L_R_Trigger
