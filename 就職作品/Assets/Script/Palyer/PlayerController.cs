@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 _aim;               //方向
     private Quaternion _playerRotation; //回転
 
-    float jumpForce = 600.0f;           //ジャンプ力
+    float jumpForce = 360.0f;           //ジャンプ力
     Vector3 playerPos;                  //ユニティちゃんの位置を入れる
     bool Ground = true;                 //地面に接触しているか否か
     int key = 0;
@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
     //--------------- 更新 --------------------
     void FixedUpdate()
     {
-        DebugLog();
+        //DebugLog();
         //movePlayer();
         jumpPlayer();
         ProCon3rd();
