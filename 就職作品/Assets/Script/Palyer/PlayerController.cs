@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
     //--------------- çXêV --------------------
     void FixedUpdate()
     {
-        //DebugLog();
+        DebugLog();
         //movePlayer();
         jumpPlayer();
         ProCon3rd();
@@ -152,7 +152,7 @@ public class PlayerController : MonoBehaviour
         }                //L Stick
         if ((rsh != 0) || (rsv != 0))
         {
-            //Debug.Log("R Stick:" + rsh + "," + rsv);
+            Debug.Log("R Stick:" + rsh + "," + rsv);
         }                //R Stick
         if ((dph != 0) || (dpv != 0)) 
         {
