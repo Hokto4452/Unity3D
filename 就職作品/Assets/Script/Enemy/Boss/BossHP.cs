@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class BossHP : MonoBehaviour
 {
     public int _BossHitPoint = 2000;         //HP
     int currentHp;
     public Slider slider;
+    public GameObject deadEffect;
+    public GameObject deadEffectPos;
+    private float nextSceneTime;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,9 +29,16 @@ public class BossHP : MonoBehaviour
 
     void BossEnemyHp()
     {
+        
         if (currentHp <= 0)         //HP‚ª0‚É‚È‚Á‚½Žž
         {
             Destroy(gameObject);    //”j‰ó
+            GameObject sp = Instantiate(deadEffect, deadEffectPos.transform.position, transform.rotation);
+            nextSceneTime += Time.deltaTime;
+            if (nextSceneTime > 2)
+            {
+                SceneManager.LoadScene("1stGoal");
+            }
         }
     }
     public void Damage(int damage)
