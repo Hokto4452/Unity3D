@@ -21,9 +21,12 @@ public class trespassUI : MonoBehaviour
     
     private void OnTriggerStay(Collider other)
     {
-        _UIPassword.SetActive(true);
-        _UIKyeBoard.SetActive(true);
-        _UIKyeBoardButton.SetActive(true);
+        if (other.tag == "Player")
+        {
+            _UIPassword.SetActive(true);
+            _UIKyeBoard.SetActive(true);
+            _UIKyeBoardButton.SetActive(true);
+        }
     }
     
     private void OnTriggerExit(Collider other)

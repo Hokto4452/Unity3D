@@ -15,7 +15,7 @@ public class SearchCharacter : MonoBehaviour
     void OnTriggerStay(Collider col)
     {
         //　プレイヤーキャラクターを発見
-        if (col.tag == "Player")
+        if (col.tag == "SearchArea" || col.tag == "Player") 
         {
             //　敵キャラクターの状態を取得
             EnemyMovrAI3.EnemyState state = moveEnemy.GetState();

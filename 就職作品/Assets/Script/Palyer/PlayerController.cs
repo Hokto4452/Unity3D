@@ -42,6 +42,8 @@ public class PlayerController : MonoBehaviour
     private bool isRight;
     public float moveSpd;
 
+    public GameObject moveOverArea;
+
     public enum MyState
     {
         Normal,
@@ -178,6 +180,7 @@ public class PlayerController : MonoBehaviour
     {
         float angleH = Input.GetAxis("R_Stick_H");
         float angleV = Input.GetAxis("R_Stick_V");
+        moveOverArea.SetActive(false);
 
         if (sight_y > 80)
         {
@@ -234,13 +237,13 @@ public class PlayerController : MonoBehaviour
         //--------------------------------------
         moveSpd = 3f * (Mathf.Abs(moveV) + Mathf.Abs(moveH));
 
-        if (moveSpd > 4f)          //スピード制限
+        if (moveSpd > 6f)          //スピード制限
         {
-            moveSpd = 3.9f;
+            moveSpd = 5.9f;
         }
-        else if (moveSpd <= 4f)
+        else if (moveSpd <= 6f)
         {
-            moveSpd = 3f * (Mathf.Abs(moveV) + Mathf.Abs(moveH));
+            moveSpd = 4f * (Mathf.Abs(moveV) + Mathf.Abs(moveH));
         }
         //Vector3 v = new Vector3(0f, 0f, 0f);
 
@@ -342,6 +345,7 @@ public class PlayerController : MonoBehaviour
         _runFlag = true;
         _speed = _topSpeed;
         _animator.SetBool("running", true);
+        moveOverArea.SetActive(true);
     }
 
     //---------ジャンプ関数
@@ -349,7 +353,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Ground)
         {
-            if (Input.GetButton("Jump"))
+            if (Input.GetButtonDown("Jump"))
             {
                 //jumpForceの分だけ上方に力がかかる
                 _rigidbody.AddForce(transform.up * jumpForce);

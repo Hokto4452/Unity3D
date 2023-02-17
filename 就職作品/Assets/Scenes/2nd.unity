@@ -4784,8 +4784,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ca0d2429b850fb40b590637a6405e5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 0}
-  pivot: {fileID: 0}
+  character: {fileID: 2125342267}
+  pivot: {fileID: 1637657822}
   _rotationSpeed: 1
   _max_rotation_x: 60
   maxYAngle: -0.5
@@ -16704,8 +16704,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ca0d2429b850fb40b590637a6405e5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 0}
-  pivot: {fileID: 0}
+  character: {fileID: 2125342267}
+  pivot: {fileID: 332784164}
   _rotationSpeed: 1
   _max_rotation_x: 60
   maxYAngle: -0.5
@@ -27433,6 +27433,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vcamera: {fileID: 1783745604}
   FPSGan: {fileID: 467077826}
+--- !u!114 &2125342283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2125342256}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ca0d2429b850fb40b590637a6405e5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 2125342267}
+  pivot: {fileID: 332784164}
+  _rotationSpeed: 1
+  _max_rotation_x: 60
+  maxYAngle: -0.5
+  minYAngle: 0.5
 --- !u!1 &2139422157
 GameObject:
   m_ObjectHideFlags: 0

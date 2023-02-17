@@ -42,8 +42,8 @@ public class PlayerCameraController : MonoBehaviour
     {
         ProCon3rd();
         ProConMove();
-        //moveMouse3rdPlayer();
-        //moveMouse1stPlayer();
+        moveMouse3rdPlayer();
+        moveMouse1stPlayer();
         //shotBullet();
     }
 

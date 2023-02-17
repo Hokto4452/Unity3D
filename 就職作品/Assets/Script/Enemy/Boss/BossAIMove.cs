@@ -4,28 +4,32 @@ using UnityEngine;
 
 public class BossAIMove : MonoBehaviour
 {
+    //--------------------ステート駆動
     public enum BossState
     {
-        Walk,
-        Wait,
-        Chase,
-        Attack,
-        EruptionAttack,
-        BackJump,
-        Splash,
-        Freeze
+        Walk,                   //巡回パターン
+        Wait,                   //巡回停止パターン
+        Chase,                  //追跡パターン
+        Attack,                 //通常攻撃パターン
+        EruptionAttack,         //噴火攻撃パターン
+        BackJump,               //高速回り込みパターン
+        Splash,                 //範囲攻撃パターン
+        Freeze                  //空
     };
+    //ポジションの取得
     public Vector3 bossPos = new Vector3();
-    private CharacterController _bossController;    //
-    private Animator animator;                      //
+    //キャラクター移動
+    private CharacterController _bossController;
+    //アニメーション
+    private Animator animator;
     //　目的地
     private Vector3 destination;
     //　歩くスピード
-    [SerializeField] private float walkSpeed = 1.0f;//
+    [SerializeField] private float walkSpeed = 1.0f;
     //　速度
-    private Vector3 velocity;                       //
+    private Vector3 velocity;
     //　移動方向
-    private Vector3 direction;                      //
+    private Vector3 direction;
     //　到着フラグ
     private bool arrived;
     //  スクリプト
@@ -42,19 +46,21 @@ public class BossAIMove : MonoBehaviour
     private float moveTime;
     [SerializeField] private float limitmoveTime = 5f;
     private float walkTime;
-
     [SerializeField] float freezeTime = 0.5f;
 
-    private eruptionAttack eruptionAttackFlag;
-    private float eruptionCountTime;
-    [SerializeField] private float beforeEruptionWait = 1f;
-    public int eruptionBulletCount = 1;
-    private float eruptionBulletInterval;
-    private float eruptionReloadInterval;
-    public bool notEruptionBullt;
-    bool haveEruptionBullet;
-    public GameObject posEruptionBullet;
-    public Rigidbody eruptionBullet;
+    //噴火攻撃パターン　宣言
+    private eruptionAttack eruptionAttackFlag;              //攻撃フラグ
+    private float eruptionCountTime;                        //連射回数
+    public int eruptionBulletCount = 1;                     //打ち止め回数
+    private float eruptionBulletInterval;                   //攻撃後の停止時間
+    private float eruptionReloadInterval;                   //攻撃貯め時間
+    public bool notEruptionBullt;                           //弾切れフラグ
+    bool haveEruptionBullet;                                //行動不能フラグ
+    public GameObject posEruptionBullet;                    //弾オブジェクト生成位置
+    public Rigidbody eruptionBullet;                        //弾オブジェクト取得
+
+
+    [SerializeField] private float beforeEruptionWait = 1f; //攻撃貯め時間
 
     private backJump backJumpFlag;
     private Rigidbody bacaJump;
@@ -201,10 +207,10 @@ public class BossAIMove : MonoBehaviour
                     SetState(BossState.Attack);
                 }
             }
-            else if (eruptionAttackFlag == true) 
+            else if (eruptionAttackFlag == true)    //噴火攻撃パターン
             {
                 //Debug.Log("噴火攻撃");
-                SetState(BossState.EruptionAttack);
+                SetState(BossState.EruptionAttack); //ステート移動
             }
             else if (backJumpFlag == true)
             {
@@ -276,26 +282,29 @@ public class BossAIMove : MonoBehaviour
             animator.SetFloat("Speed", 0f);
             animator.SetBool("Attack", true);
         }
-        else if(tempState == BossState.EruptionAttack)
+        else if(tempState == BossState.EruptionAttack)  //噴火攻撃パターン
         {
-            velocity = Vector3.zero;
-            Rigidbody clone;
-            if(eruptionBulletCount == 0)
+            velocity = Vector3.zero;                    //移動量初期化
+            Rigidbody clone;                            //Rigidbody取得
+            if (eruptionBulletCount == 0)   //攻撃用の弾がないなら
             {
-                haveEruptionBullet = true;
+                haveEruptionBullet = true;  //行動不能
             }
-            eruptionReloadInterval += Time.deltaTime;
-            if(eruptionReloadInterval > 3)
+            eruptionReloadInterval += Time.deltaTime;   //貯め時間開始
+            if(eruptionReloadInterval > 3)              //貯め時間が3秒超えたら
             {
-                eruptionBulletInterval += Time.deltaTime;
-                if(eruptionBulletCount > 0)
+                eruptionBulletInterval += Time.deltaTime;   //攻撃後の停止時間開始
+                if(eruptionBulletCount > 0) //攻撃用の弾があるなら
                 {
-                    eruptionBulletCount -= 1;
-                    notEruptionBullt = true;
+                    eruptionBulletCount -= 1;   //弾を減らす
+                    //発射位置を生成
                     GameObject sp = Instantiate(splashbuullet, posEruptionBullet.transform.position, transform.rotation);
-                    Destroy(sp, 3.0f);
+                    Destroy(sp, 3.0f);          //3秒後に消失
+                    //弾を生成
                     clone = Instantiate(eruptionBullet, posEruptionBullet.transform.position, transform.rotation) as Rigidbody;
+                    //発射方向に力を加える
                     clone.velocity = transform.TransformDirection(Vector3.up * 3f);
+                    notEruptionBullt = true;    //弾切れでない
                 }
             }
             //Debug.Log("噴火攻撃");
