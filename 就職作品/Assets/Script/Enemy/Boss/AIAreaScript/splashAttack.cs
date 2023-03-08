@@ -4,23 +4,21 @@ using UnityEngine;
 
 public class splashAttack : MonoBehaviour
 {
-    private BossAIMove moveBoss;
-    public SerchBoss SplashWaveFlag;
-    public bool SplashFlag;
-    public int splashCount = 1;
-    public float splashMadeCount = 5f;
+    private BossAIMove moveBoss;        //BossAIMoveコンポーネント取得
+    public SerchBoss SplashWaveFlag;    //SerchBossコンポーネント取得
+    public bool SplashFlag;             //噴水攻撃フラグ
+    public int splashCount = 1;         //連続発射回数
+    //public float splashMadeCount = 5f;
 
-    public GameObject target;
-    //public Vector3 posPush;
+    public GameObject target;           //発射口オブジェクト
+    //public Vector3 posPush;           
 
-    public GameObject rockPrefab;
-    public float shotSplashTime;
+    //public GameObject rockPrefab;       //
+    //public float shotSplashTime;        //
 
-    [SerializeField] GameObject splashParent;
-
-    public Vector3[] pushPos = new Vector3[12];
-
-    public GameObject[] muzzle = new GameObject[12];
+    [SerializeField] GameObject splashParent;           //発射口複数生成の為の親子化
+    public Vector3[] pushPos = new Vector3[12];         //複数の発射口のポジション
+    public GameObject[] muzzle = new GameObject[12];    //発射口のオブジェクト生成
 
     //private BossAIMove _bossPos;
     //public Vector3 bossPos = new Vector3();
@@ -28,9 +26,9 @@ public class splashAttack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        moveBoss = GetComponentInParent<BossAIMove>();
-        SplashWaveFlag = GetComponent<SerchBoss>();
-        SplashFlag = false;
+        moveBoss = GetComponentInParent<BossAIMove>();  //親にあるBossAIMoveコンポーネント取得
+        SplashWaveFlag = GetComponent<SerchBoss>();     //SerchBossコンポーネント取得
+        SplashFlag = false;                             //噴火攻撃フラグオフ
 
         //_bossPos.GetComponent<BossAIMove>();
         //bossPos = _bossPos.bossPos;
@@ -41,7 +39,7 @@ public class splashAttack : MonoBehaviour
     void Update()
     {
         int i = 0;
-        foreach(Transform children in splashParent.transform)
+        foreach(Transform children in splashParent.transform)   //子供の数分の位置
         {
             //pushPos[i] = children.gameObject.transform.position;
             muzzle[i] = children.gameObject;
@@ -51,7 +49,7 @@ public class splashAttack : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == "Player")          //Playerタグのついたオブジェクトび触れた時
         {
             BossAIMove.BossState state = moveBoss.GetState();
             SplashFlag = true;
